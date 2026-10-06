@@ -1,0 +1,150 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Cream Ivory Background */
+    --background: 40 33% 98%;
+    /* Royal Deep Crimson / Maroon (from logo) */
+    --foreground: 350 45% 15%;
+    
+    --card: 0 0% 100%;
+    --card-foreground: 350 45% 15%;
+    
+    --popover: 0 0% 100%;
+    --popover-foreground: 350 45% 15%;
+    
+    /* Primary: Royal Crimson Maroon #5C0B1B */
+    --primary: 348 78% 21%;
+    --primary-foreground: 43 74% 94%;
+    
+    /* Secondary: Warm Cream #F5EFEB */
+    --secondary: 35 30% 92%;
+    --secondary-foreground: 348 78% 21%;
+    
+    --muted: 36 20% 93%;
+    /* Fixed: was 350 15% 42% — now darker for AA contrast on ivory */
+    --muted-foreground: 350 20% 38%;
+    
+    /* Accent: Antique Zari Gold #D4AF37 */
+    --accent: 43 74% 49%;
+    --accent-foreground: 348 78% 21%;
+    
+    /* Teal Highlight (from peacock feather spot #0D7C85) */
+    --peacock: 184 82% 29%;
+    --peacock-foreground: 0 0% 100%;
+    
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    
+    --border: 43 25% 86%;
+    --input: 43 25% 86%;
+    --ring: 43 74% 49%;
+    --radius: 0.25rem;
+  }
+
+  .dark {
+    --background: 350 50% 8%;
+    --foreground: 40 30% 95%;
+    --card: 350 45% 11%;
+    --card-foreground: 40 30% 95%;
+    --popover: 350 45% 11%;
+    --popover-foreground: 40 30% 95%;
+    --primary: 43 74% 49%;
+    --primary-foreground: 350 78% 18%;
+    --secondary: 350 35% 16%;
+    --secondary-foreground: 40 30% 95%;
+    --muted: 350 25% 18%;
+    --muted-foreground: 40 18% 72%;
+    --accent: 43 74% 49%;
+    --accent-foreground: 350 78% 18%;
+    --peacock: 184 75% 38%;
+    --peacock-foreground: 0 0% 100%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 350 25% 22%;
+    --input: 350 25% 22%;
+    --ring: 43 74% 49%;
+  }
+
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: var(--font-montserrat), sans-serif;
+    font-size: 1rem; /* 16px base */
+    line-height: 1.625; /* leading-relaxed */
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-playfair), serif;
+    line-height: 1.2;
+    color: hsl(var(--foreground));
+  }
+
+  p {
+    line-height: 1.75;
+  }
+}
+
+/* ───────────────────────────────────────────────
+   Reusable Brand Typography Utility Classes
+   ─────────────────────────────────────────────── */
+@layer components {
+  /* Section eyebrow / kicker label above headings */
+  .label-eyebrow {
+    @apply text-xs tracking-[0.3em] uppercase font-semibold text-accent;
+  }
+
+  /* Small badge / tag text — minimum legible size */
+  .label-tag {
+    @apply text-xs tracking-widest uppercase font-bold;
+  }
+
+  /* Standard body copy — readable at all sizes */
+  .body-copy {
+    @apply text-base leading-relaxed text-muted-foreground font-normal;
+  }
+
+  /* Smaller supporting text */
+  .body-sm {
+    @apply text-sm leading-relaxed text-muted-foreground;
+  }
+
+  /* Form field labels */
+  .form-label {
+    @apply text-xs uppercase tracking-wider font-semibold text-primary block mb-1.5;
+  }
+
+  /* Navigation links */
+  .nav-link {
+    @apply text-xs uppercase tracking-[0.15em] font-semibold text-primary hover:text-accent transition-colors;
+  }
+}
+
+/* ───────────────────────────────────────────────
+   Custom gradient utilities
+   ─────────────────────────────────────────────── */
+.gold-gradient-text {
+  background: linear-gradient(135deg, #DFBA4E 0%, #B8860B 50%, #E6C665 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gold-gradient-bg {
+  background: linear-gradient(135deg, #D4AF37 0%, #AA820A 100%);
+}
+
+.peacock-gradient-bg {
+  background: linear-gradient(135deg, #0D7C85 0%, #064E53 100%);
+}
