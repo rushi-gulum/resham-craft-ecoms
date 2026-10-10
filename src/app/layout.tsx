@@ -20,12 +20,37 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Resham Craft - Luxury Indian Sarees",
-  description: "Discover the elegance of heritage. Handwoven luxury sarees for the modern royalty.",
+  title: "Resham Craft | Luxury Indian Handloom Sarees & Bridal Trousseau",
+  description: "Experience the eternal grandeur of authentic Banarasi, Kanjeevaram, and Chanderi pure silk sarees handwoven with certified Silk Mark and pure gold zari.",
+  keywords: [
+    "Resham Craft",
+    "Handloom Sarees",
+    "Banarasi Silk",
+    "Kanjeevaram Saree",
+    "Bridal Saree",
+    "Pure Zari",
+    "Silk Mark Certified",
+    "Indian Luxury Clothing"
+  ],
+  authors: [{ name: "Resham Craft Artisanal Guild" }],
   openGraph: {
-    title: "Resham Craft - Luxury Indian Sarees",
-    description: "Discover the elegance of heritage. Handwoven luxury sarees for the modern royalty.",
+    title: "Resham Craft | Luxury Indian Handloom Sarees",
+    description: "Discover handcrafted slow luxury from holy Varanasi and temple-town Kanchipuram. 100% certified pure silk.",
+    url: "https://reshamcraft.com",
+    siteName: "Resham Craft",
+    images: [
+      {
+        url: "/images/violet_banarasi_saree_product.png",
+        width: 1200,
+        height: 630,
+        alt: "Resham Craft Luxury Handloom Sarees"
+      }
+    ],
+    locale: "en_IN",
     type: "website",
+  },
+  icons: {
+    icon: "/images/reshamcraft_nobg_1768746306662.png",
   },
 };
 
