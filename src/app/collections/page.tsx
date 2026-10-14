@@ -1,18 +1,31 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { PRODUCTS, Product } from "@/lib/data";
 import { useCart } from "@/lib/cart-context";
 import { ShoppingBag, Eye, Sparkles } from "lucide-react";
 
-const CATEGORIES = ["All", "Banarasi", "Kanjeevaram", "Bridal"];
+const CATEGORIES = ["All", "Banarasi", "Kanjeevaram", "Paithani", "Bridal"];
 
-export default function CollectionsPage() {
-  const [selectedCategory, setSelectedCategory] = useState("All");
+function CollectionsContent() {
+  const searchParams = useSearchParams();
+  const initialCat = searchParams.get("category");
+
+  const [selectedCategory, setSelectedCategory] = useState(
+    initialCat && CATEGORIES.includes(initialCat) ? initialCat : "All"
+  );
   const [sortBy, setSortBy] = useState<"featured" | "price-asc" | "price-desc">("featured");
   const { addToCart } = useCart();
+
+  useEffect(() => {
+    const currentCat = searchParams.get("category");
+    if (currentCat && CATEGORIES.includes(currentCat)) {
+      setSelectedCategory(currentCat);
+    }
+  }, [searchParams]);
 
   let filteredProducts =
     selectedCategory === "All"
@@ -171,5 +184,19 @@ export default function CollectionsPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function CollectionsPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="container mx-auto px-4 py-24 text-center">
+          <p className="text-muted-foreground font-serif text-lg">Loading curated weaves...</p>
+        </div>
+      }
+    >
+      <CollectionsContent />
+    </Suspense>
   );
 }

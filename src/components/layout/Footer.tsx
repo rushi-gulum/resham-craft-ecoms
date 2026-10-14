@@ -42,23 +42,23 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/collections" className="hover:text-white transition-colors">
+                <Link href="/collections?category=Banarasi" className="hover:text-white transition-colors">
                   Banarasi
                 </Link>
               </li>
               <li>
-                <Link href="/collections" className="hover:text-white transition-colors">
+                <Link href="/collections?category=Kanjeevaram" className="hover:text-white transition-colors">
                   Kanjeevaram
                 </Link>
               </li>
               <li>
-                <Link href="/collections" className="hover:text-white transition-colors">
-                  Chanderi
+                <Link href="/collections?category=Paithani" className="hover:text-white transition-colors">
+                  Paithani
                 </Link>
               </li>
               <li>
                 <Link href="/bridal" className="hover:text-white transition-colors">
-                  Bridal Collection
+                  Bridal Odyssey
                 </Link>
               </li>
             </ul>

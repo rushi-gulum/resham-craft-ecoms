@@ -136,7 +136,7 @@ export default function Navbar() {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search Banarasi, Kanjeevaram, Bridal silk..."
+              placeholder="Search Banarasi, Kanjeevaram, Paithani, Bridal silk..."
               className="flex-1 bg-transparent border-none outline-none text-sm text-primary placeholder:text-muted-foreground"
               autoFocus
             />

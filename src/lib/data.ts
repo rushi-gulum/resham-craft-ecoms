@@ -1,7 +1,7 @@
 export interface Product {
   id: string;
   name: string;
-  category: "Banarasi" | "Kanjeevaram" | "Bridal";
+  category: "Banarasi" | "Kanjeevaram" | "Paithani" | "Bridal";
   price: number;
   originalPrice?: number;
   image: string;
@@ -237,6 +237,223 @@ export const PRODUCTS: Product[] = [
     blousePiece: "Included (Sky blue check silk with matching zari border, 80cm)",
     careInstructions: "Dry clean only.",
     description: "Mesmerizing sky blue silk woven with fine golden check kattam patterns and broad antique temple zari borders."
+  },
+
+  // ==========================================
+  // PAITHANI COLLECTION (5 Products)
+  // ==========================================
+  {
+    id: "raas-mor-rani-paithani",
+    name: "Raas Rani Mor-Popat Pure Paithani",
+    category: "Paithani",
+    price: 33500,
+    originalPrice: 39000,
+    image: "/images/paithani-1.jpg",
+    secondaryImages: [
+      "/images/paithani-1.jpg",
+      "/images/heritage_weaving_close-up.png",
+      "/images/handloom_weaving_craft.png"
+    ],
+    isBestseller: true,
+    isNew: true,
+    fabric: "100% Pure Yeola Mulberry Silk (Silk Mark Certified)",
+    zariType: "Pure Gold & Resham Tapestry Weave Zari",
+    color: "Rani Pink with Gold Asavali & Mor Pallu",
+    origin: "Yeola / Paithan, Maharashtra",
+    blousePiece: "Included (Matching Rani pink silk with peacock border, 85cm)",
+    careInstructions: "Professional dry clean only. Wrap gently in pure cotton or muslin fabric.",
+    description: "Magnificent Maharashtrian pure silk Paithani saree in vibrant rani pink. Features traditional golden butti work and an opulent golden pallu woven with iconic Mor-Popat (peacock and parrot) tapestry motifs."
+  },
+  {
+    id: "indraneel-kattam-paithani",
+    name: "Indraneel Royal Blue Kattam Paithani",
+    category: "Paithani",
+    price: 35900,
+    originalPrice: 42000,
+    image: "/images/paithani-2.jpg",
+    secondaryImages: [
+      "/images/paithani-2.jpg",
+      "/images/handloom_weaving_craft.png"
+    ],
+    isBestseller: false,
+    isNew: true,
+    fabric: "Pure Handloom Mulberry Silk",
+    zariType: "Traditional Narali Border with Multi-color Resham Zari",
+    color: "Royal Sapphire Blue with Multi-color Pallu",
+    origin: "Paithan, Maharashtra",
+    blousePiece: "Included (Royal blue brocade blouse with ornate border, 90cm)",
+    careInstructions: "Dry clean only. Air in shade periodically.",
+    description: "Regal royal blue saree detailed with geometric check kattam and an authentic Paithani multi-colored floral vine and peacock border, a prized heirloom for Maharashtrian weddings."
+  },
+  {
+    id: "shrikala-bottle-green-paithani",
+    name: "Shrikala Emerald Bottle Green Paithani",
+    category: "Paithani",
+    price: 29999,
+    originalPrice: 36000,
+    image: "/images/paithani-3.png",
+    secondaryImages: [
+      "/images/paithani-3.png",
+      "/images/heritage_weaving_close-up.png"
+    ],
+    isBestseller: true,
+    isNew: false,
+    fabric: "High-Lustre Pure Handloom Silk",
+    zariType: "Broad Swarna Pankh Zari Border",
+    color: "Bottle Green & Lustrous Antique Gold",
+    origin: "Yeola, Maharashtra",
+    blousePiece: "Included (Bottle green matching pure silk, 85cm)",
+    careInstructions: "Dry clean only. Fold along different creases to protect handloom fibers.",
+    description: "Timeless bottle green silk Paithani celebrating age-old Maharashtrian grace. Broad glistening gold border with fine golden star buttis and traditional Asavali floral pallu."
+  },
+  {
+    id: "padma-kairi-gulabi-paithani",
+    name: "Padma Kairi Ruby Magenta Paithani",
+    category: "Paithani",
+    price: 31500,
+    originalPrice: 37000,
+    image: "/images/paithani-4.jpg",
+    secondaryImages: [
+      "/images/paithani-4.jpg",
+      "/images/handloom_weaving_craft.png"
+    ],
+    isBestseller: false,
+    isNew: true,
+    fabric: "Pure Silk Warp & Weft",
+    zariType: "Authentic Muniya & Kairi Zari",
+    color: "Ruby Magenta Pink with Gilded Zari Pallu",
+    origin: "Paithan, Maharashtra",
+    blousePiece: "Included (Ruby pink silk with matching border, 85cm)",
+    careInstructions: "Store in clean muslin bag. Strictly dry clean.",
+    description: "Luminous ruby magenta Paithani saree adorned with sacred mango (Kairi) buttis and vibrant multi-colored bird motifs along the traditional handloom pallu."
+  },
+  {
+    id: "rajasa-imperial-violet-paithani",
+    name: "Rajasa Imperial Violet Paithani",
+    category: "Paithani",
+    price: 34000,
+    originalPrice: 39500,
+    image: "/images/paithani-5.png",
+    secondaryImages: [
+      "/images/paithani-5.png",
+      "/images/heritage_weaving_close-up.png"
+    ],
+    isBestseller: false,
+    isNew: false,
+    fabric: "Double-Warp Fine Yeola Silk",
+    zariType: "Antique Copper & Yellow Gold Zari",
+    color: "Imperial Deep Violet with Burnished Gold Border",
+    origin: "Yeola, Maharashtra",
+    blousePiece: "Included (Deep violet silk blouse fabric, 85cm)",
+    careInstructions: "Professional dry clean only.",
+    description: "Rich imperial violet drape woven with delicate gold zari polka buttis and a heavy burnished gold border, creating a royal silhouette for festive celebrations."
+  },
+  {
+    id: "lavanya-lavender-mor-paithani",
+    name: "Lavanya Lavender Mor-Bangadi Paithani",
+    category: "Paithani",
+    price: 36500,
+    originalPrice: 42000,
+    image: "/images/paithani-6.png",
+    secondaryImages: [
+      "/images/paithani-6.png",
+      "/images/heritage_weaving_close-up.png",
+      "/images/handloom_weaving_craft.png"
+    ],
+    isBestseller: true,
+    isNew: true,
+    fabric: "Pure Yeola Silk with Silver & Resham Threads",
+    zariType: "Roopa Silver Kalabattu & Multi-color Meenakari",
+    color: "Soft Lavender Lilac with Silver Peacock Border",
+    origin: "Yeola, Maharashtra",
+    blousePiece: "Included (Matching lavender silk with peacock sleeve border, 85cm)",
+    careInstructions: "Professional dry clean only. Wrap in muslin cloth.",
+    description: "Enchanting pastel lavender Paithani featuring delicate silver polka buttis and an iconic silver Mor-Bangadi (peacock ring) tapestry border woven with vibrant Meenakari resham."
+  },
+  {
+    id: "kamalini-swarna-lotus-paithani",
+    name: "Kamalini Lotus Motif Tissue Paithani",
+    category: "Paithani",
+    price: 28500,
+    originalPrice: 34000,
+    image: "/images/paithani-7.jpg",
+    secondaryImages: [
+      "/images/paithani-7.jpg",
+      "/images/handloom_weaving_craft.png"
+    ],
+    isBestseller: false,
+    isNew: true,
+    fabric: "Pure Handloom Tussar Silk",
+    zariType: "Fine Matte Gold Zari with Hand-woven Lotus Pallu",
+    color: "Warm Haldi Gold with Lotus Blossom Pallu",
+    origin: "Paithan, Maharashtra",
+    blousePiece: "Included (Contrasting emerald green silk blouse piece, 80cm)",
+    careInstructions: "Dry clean only. Iron on reverse.",
+    description: "Radiant haldi-gold handloom silk highlighted by serene blooming pink lotus (Kamal) floral motifs along the sweeping pallu, complemented by clean gold tissue borders."
+  },
+  {
+    id: "mayur-turquoise-resham-paithani",
+    name: "Mayur Turquoise Peacock Paithani",
+    category: "Paithani",
+    price: 34999,
+    originalPrice: 41000,
+    image: "/images/paithani-8.jpg",
+    secondaryImages: [
+      "/images/paithani-8.jpg",
+      "/images/heritage_weaving_close-up.png"
+    ],
+    isBestseller: false,
+    isNew: true,
+    fabric: "100% Pure Mulberry Silk (Silk Mark Certified)",
+    zariType: "Silver & Multi-hued Resham Tapestry Zari",
+    color: "Vibrant Turquoise Sky Blue with Mor-Popat Pallu",
+    origin: "Yeola, Maharashtra",
+    blousePiece: "Included (Matching turquoise silk with ornate border, 85cm)",
+    careInstructions: "Strictly dry clean only. Store flat in breathable cotton wrap.",
+    description: "Vivid turquoise blue pure silk draped in regal splendor. Showcases pure silver zari borders and an expansive hand-interlocked peacock and parrot tapestry pallu."
+  },
+  {
+    id: "kasturi-chocolate-asavali-paithani",
+    name: "Kasturi Mocha Chocolate Asavali Paithani",
+    category: "Paithani",
+    price: 32000,
+    originalPrice: 37500,
+    image: "/images/paithani-9.jpg",
+    secondaryImages: [
+      "/images/paithani-9.jpg",
+      "/images/handloom_weaving_craft.png"
+    ],
+    isBestseller: true,
+    isNew: false,
+    fabric: "High-twist Pure Yeola Silk",
+    zariType: "Antique Gold Dipped Kalabattu Zari",
+    color: "Rich Coffee Chocolate Brown with Multi-color Pallu",
+    origin: "Yeola, Maharashtra",
+    blousePiece: "Included (Coffee brown silk with matching gold border, 85cm)",
+    careInstructions: "Specialist dry cleaning recommended.",
+    description: "Rare and striking mocha chocolate brown Paithani saree woven with triangular narali temple borders and a vibrant floral Asavali and peacock tapestry pallu."
+  },
+  {
+    id: "swarna-pitambari-mor-paithani",
+    name: "Swarna Pitambari Royal Nauvari Paithani",
+    category: "Paithani",
+    price: 37000,
+    originalPrice: 43500,
+    image: "/images/paithani-10.jpg",
+    secondaryImages: [
+      "/images/paithani-10.jpg",
+      "/images/heritage_weaving_close-up.png",
+      "/images/handloom_weaving_craft.png"
+    ],
+    isBestseller: true,
+    isNew: true,
+    fabric: "Heavy Pure Yeola Silk (Silk Mark Certified)",
+    zariType: "24K Dipped Gold Kalabattu with Vivid Peacock Tapestry",
+    color: "Auspicious Swarna Pitambari Yellow & Pure Gold",
+    origin: "Yeola / Paithan, Maharashtra",
+    blousePiece: "Included (Pitambari yellow brocade fabric with heavy armlet zari, 90cm)",
+    careInstructions: "Preserve with cedar chips in muslin. Dry clean only.",
+    description: "The quintessential auspicious Maharashtrian wedding saree in lustrous Pitambari golden-yellow, woven with dense golden buttis and a magnificent celebratory Mor-Popat pallu."
   },
 
   // ==========================================
