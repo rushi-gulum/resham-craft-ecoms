@@ -34,12 +34,14 @@ export default function Bestsellers() {
           {bestsellers.map((product) => (
             <div key={product.id} className="group flex flex-col">
               <div className="relative aspect-[3/4] bg-muted overflow-hidden mb-5">
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-700"
-                />
+                <Link href={`/collections/${product.id}`} className="block w-full h-full">
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                </Link>
                 <button
                   type="button"
                   onClick={() => addToCart(product)}
@@ -55,7 +57,7 @@ export default function Bestsellers() {
                   {product.category}
                 </span>
                 <h3 className="text-lg font-serif text-primary mb-1 leading-snug group-hover:text-accent transition-colors">
-                  <Link href="/collections">{product.name}</Link>
+                  <Link href={`/collections/${product.id}`}>{product.name}</Link>
                 </h3>
                 <p className="text-sm font-medium text-foreground/80 mt-auto pt-2">
                   ₹ {product.price.toLocaleString("en-IN")}

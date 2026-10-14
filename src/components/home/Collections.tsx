@@ -21,7 +21,7 @@ export default function Collections() {
             className="group relative h-[480px] overflow-hidden bg-muted flex flex-col justify-end p-8"
           >
             <Image
-              src="/images/violet_banarasi_saree_product.png"
+              src="/images/bridal-1.png"
               alt="The Bridal Edit"
               fill
               className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -47,7 +47,7 @@ export default function Collections() {
             className="group relative h-[480px] overflow-hidden bg-muted flex flex-col justify-end p-8"
           >
             <Image
-              src="/images/peacock_teal_saree_product.png"
+              src="/images/kanjeevaram-1.png"
               alt="Pure Silk Sarees"
               fill
               className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -73,7 +73,7 @@ export default function Collections() {
             className="group relative h-[480px] overflow-hidden bg-muted flex flex-col justify-end p-8"
           >
             <Image
-              src="/images/pink_banarasi_saree_product.png"
+              src="/images/banarasi-1.jpg"
               alt="Royal Banarasi"
               fill
               className="object-cover transition-transform duration-700 group-hover:scale-105"

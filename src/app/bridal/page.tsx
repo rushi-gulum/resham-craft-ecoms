@@ -38,7 +38,7 @@ export default function BridalPage() {
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: "url('/images/violet_banarasi_saree_product.png')",
+            backgroundImage: "url('/images/bridal-4.png')",
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/50 to-black/40" />

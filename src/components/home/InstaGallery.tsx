@@ -1,12 +1,12 @@
 import Image from "next/image";
 
 const GALLERY_IMAGES = [
-  "/images/handloom_weaving_craft.png",
-  "/images/peacock_teal_saree_product.png",
-  "/images/heritage_weaving_close-up.png",
-  "/images/modern_silk_saree_drape.png",
-  "/images/violet_banarasi_saree_product.png",
-  "/images/photo-1617627143750-d86bc21e42bb.jpg"
+  "/images/banarasi-1.jpg",
+  "/images/kanjeevaram-1.png",
+  "/images/bridal-1.png",
+  "/images/banarasi-2.jpg",
+  "/images/kanjeevaram-2.jpg",
+  "/images/bridal-4.png"
 ];
 
 export default function InstaGallery() {
