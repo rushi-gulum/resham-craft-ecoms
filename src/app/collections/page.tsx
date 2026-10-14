@@ -39,23 +39,20 @@ function CollectionsContent() {
   }
 
   return (
-    <main className="flex-1 py-16 md:py-24">
+    <main className="flex-1 pt-6 pb-16 md:pt-10 md:pb-20">
       <div className="container mx-auto px-4 max-w-7xl">
-        {/* Header Section */}
-        <div className="max-w-3xl mx-auto text-center mb-16">
-          <span className="label-eyebrow block mb-3">
+        {/* Compact Header Section */}
+        <div className="text-center mb-8">
+          <span className="label-eyebrow block mb-2">
             Handwoven Masterpieces
           </span>
-          <h1 className="text-5xl md:text-6xl font-serif text-primary mb-6">
+          <h1 className="text-3xl md:text-5xl font-serif text-primary">
             The Masterpiece Collection
           </h1>
-          <p className="text-muted-foreground text-base md:text-lg leading-relaxed">
-            Discover a curated anthology of the most revered silk drapes from across India, woven by generational artisans with pure gold and silver kalabattu zari.
-          </p>
         </div>
 
         {/* Filter & Sort Controls */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-12 pb-6 border-b border-border/50">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-8 pb-4 border-b border-border/50">
           {/* Category Tabs */}
           <div className="flex flex-wrap items-center justify-center gap-2">
             {CATEGORIES.map((cat) => (
