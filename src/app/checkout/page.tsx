@@ -47,7 +47,7 @@ export default function CheckoutPage() {
   // UPI details
   const [upiId, setUpiId] = useState("ananya@okhdfcbank");
 
-  const shipping = subtotal > 25000 ? 0 : 500;
+  const shipping = subtotal > 5000 ? 0 : 500;
   const total = subtotal + shipping;
 
   const handleCompleteOrder = (e: React.FormEvent) => {

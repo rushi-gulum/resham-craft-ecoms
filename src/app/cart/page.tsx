@@ -14,7 +14,7 @@ export default function CartPage() {
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
 
-  const shipping = cart.length > 0 ? (subtotal > 25000 ? 0 : 500) : 0;
+  const shipping = cart.length > 0 ? (subtotal > 5000 ? 0 : 500) : 0;
   const total = Math.max(0, subtotal - discount + shipping);
 
   const applyCoupon = (e: React.FormEvent) => {
@@ -261,7 +261,7 @@ export default function CartPage() {
                 </div>
                 <div className="flex items-center gap-2">
                   <Truck className="w-4 h-4 text-accent shrink-0" />
-                  <span>Free shipping on orders above ₹ 25,000</span>
+                  <span>Free shipping on orders above ₹ 5,000</span>
                 </div>
               </div>
             </div>

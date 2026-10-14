@@ -50,7 +50,7 @@ export default function NewArrivalsPage() {
               </p>
               <div className="pt-2 flex items-baseline gap-4">
                 <span className="text-2xl font-serif text-primary font-bold">
-                  ₹ 42,000
+                  ₹ 8,499
                 </span>
                 <span className="text-xs uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded font-semibold">
                   Only 3 Woven

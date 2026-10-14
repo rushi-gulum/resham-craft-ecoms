@@ -21,7 +21,7 @@ export default function BridalPage() {
     notes: ""
   });
 
-  const bridalSarees = PRODUCTS.filter((p) => p.category === "Bridal" || p.price > 25000);
+  const bridalSarees = PRODUCTS.filter((p) => p.category === "Bridal" || p.price >= 7500);
 
   const handleBooking = (e: React.FormEvent) => {
     e.preventDefault();

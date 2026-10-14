@@ -136,7 +136,7 @@ export default function ProfilePage() {
 
                     <div className="flex items-center justify-between w-full md:w-auto gap-4 pt-4 md:pt-0 border-t md:border-none border-border/40">
                       <div className="text-left md:text-right">
-                        <p className="text-base font-serif font-bold text-primary">₹ 32,500</p>
+                        <p className="text-base font-serif font-bold text-primary">₹ 6,800</p>
                         <span className="text-xs text-muted-foreground">Prepaid (UPI)</span>
                       </div>
                       <Link
@@ -185,7 +185,7 @@ export default function ProfilePage() {
 
                     <div className="flex items-center justify-between w-full md:w-auto gap-8 pt-4 md:pt-0 border-t md:border-none border-border/40">
                       <div className="text-left md:text-right">
-                        <p className="text-base font-serif font-bold text-primary">₹ 18,500</p>
+                        <p className="text-base font-serif font-bold text-primary">₹ 6,200</p>
                         <span className="text-xs text-muted-foreground">Prepaid (Card)</span>
                       </div>
                       <button
