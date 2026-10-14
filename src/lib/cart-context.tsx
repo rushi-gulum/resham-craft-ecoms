@@ -50,6 +50,8 @@ interface CartContextType {
   subtotal: number;
   isDrawerOpen: boolean;
   setIsDrawerOpen: (open: boolean) => void;
+  lastAddedItem: { name: string; price: number } | null;
+  setLastAddedItem: (item: { name: string; price: number } | null) => void;
   user: UserAccount;
   loginUser: (email: string, name?: string) => void;
   logoutUser: () => void;
@@ -130,6 +132,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   });
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [lastAddedItem, setLastAddedItem] = useState<{ name: string; price: number } | null>(null);
+  const toastTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
 
   const [user, setUser] = useState<UserAccount>(() => {
     if (typeof window !== "undefined") {
@@ -191,9 +195,16 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       }
       return [...prev, { product, quantity: 1 }];
     });
-    toast.success(`Added ${product.name} to bag`, {
-      description: `₹ ${product.price.toLocaleString("en-IN")}`
-    });
+    // Set notification above subtotal in shopping bag drawer
+    setLastAddedItem({ name: product.name, price: product.price });
+    if (toastTimeoutRef.current) {
+      clearTimeout(toastTimeoutRef.current);
+    }
+    // Auto-disappear after 2500ms
+    toastTimeoutRef.current = setTimeout(() => {
+      setLastAddedItem(null);
+    }, 2500);
+
     setIsDrawerOpen(true);
   };
 
@@ -257,6 +268,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         subtotal,
         isDrawerOpen,
         setIsDrawerOpen,
+        lastAddedItem,
+        setLastAddedItem,
         user,
         loginUser,
         logoutUser,

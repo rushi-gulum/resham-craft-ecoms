@@ -118,13 +118,13 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center text-xs text-white/55 font-normal">
           <p>© 2026 Resham Craft. All rights reserved.</p>
           <div className="flex gap-6 mt-4 md:mt-0">
-            <Link href="#" className="hover:text-white transition-colors">
+            <Link href="/privacy-policy" className="hover:text-white transition-colors">
               Privacy Policy
             </Link>
-            <Link href="#" className="hover:text-white transition-colors">
+            <Link href="/terms-of-service" className="hover:text-white transition-colors">
               Terms of Service
             </Link>
-            <Link href="#" className="hover:text-white transition-colors">
+            <Link href="/shipping-returns" className="hover:text-white transition-colors">
               Shipping &amp; Returns
             </Link>
           </div>

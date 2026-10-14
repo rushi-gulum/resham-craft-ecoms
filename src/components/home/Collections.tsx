@@ -26,12 +26,12 @@ export default function Collections() {
               fill
               className="object-cover transition-transform duration-700 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
             <div className="relative z-10 text-white">
-              <span className="label-tag text-accent block mb-2">
+              <span className="label-tag text-accent block mb-2 font-bold">
                 Ceremonial Elegance
               </span>
-              <h3 className="text-2xl font-serif mb-2">The Bridal Edit</h3>
+              <h3 className="text-2xl font-serif mb-2 text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]">The Bridal Edit</h3>
               <p className="text-white/80 text-xs leading-relaxed line-clamp-2 mb-4">
                 Grand heirlooms woven with pure zari for eternal auspicious beginnings.
               </p>
@@ -52,12 +52,12 @@ export default function Collections() {
               fill
               className="object-cover transition-transform duration-700 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
             <div className="relative z-10 text-white">
-              <span className="label-tag text-accent block mb-2">
+              <span className="label-tag text-accent block mb-2 font-bold">
                 South Silk Legacy
               </span>
-              <h3 className="text-2xl font-serif mb-2">Kanjeevaram</h3>
+              <h3 className="text-2xl font-serif mb-2 text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]">Kanjeevaram</h3>
               <p className="text-white/80 text-xs leading-relaxed line-clamp-2 mb-4">
                 Rich contrast temple korvai borders and heavy pure gold zari pallus.
               </p>
@@ -78,12 +78,12 @@ export default function Collections() {
               fill
               className="object-cover transition-transform duration-700 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
             <div className="relative z-10 text-white">
-              <span className="label-tag text-accent block mb-2">
+              <span className="label-tag text-accent block mb-2 font-bold">
                 Varanasi Heritage
               </span>
-              <h3 className="text-2xl font-serif mb-2">Royal Banarasi</h3>
+              <h3 className="text-2xl font-serif mb-2 text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]">Royal Banarasi</h3>
               <p className="text-white/80 text-xs leading-relaxed line-clamp-2 mb-4">
                 Finest floral jaals and intricate kadhwa weaves celebrating royal heritage.
               </p>
@@ -104,12 +104,12 @@ export default function Collections() {
               fill
               className="object-cover transition-transform duration-700 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
             <div className="relative z-10 text-white">
-              <span className="label-tag text-accent block mb-2">
+              <span className="label-tag text-accent block mb-2 font-bold">
                 Maharashtra Pride
               </span>
-              <h3 className="text-2xl font-serif mb-2">Yeola Paithani</h3>
+              <h3 className="text-2xl font-serif mb-2 text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]">Yeola Paithani</h3>
               <p className="text-white/80 text-xs leading-relaxed line-clamp-2 mb-4">
                 Iconic Mor-Popat tapestry pallus and pure gold Swarna pankh borders.
               </p>

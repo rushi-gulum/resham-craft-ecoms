@@ -67,7 +67,7 @@ export default function RootLayout({
           <CartDrawer />
           <div className="flex-1 flex flex-col">{children}</div>
           <Footer />
-          <Toaster position="bottom-right" richColors />
+          <Toaster position="top-right" richColors duration={2500} closeButton />
         </CartProvider>
       </body>
     </html>

@@ -3,10 +3,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useCart } from "@/lib/cart-context";
-import { X, Trash2, Plus, Minus, ArrowRight } from "lucide-react";
+import { X, Trash2, Plus, Minus, ArrowRight, CheckCircle2 } from "lucide-react";
 
 export default function CartDrawer() {
-  const { isDrawerOpen, setIsDrawerOpen, cart, updateQuantity, removeFromCart, subtotal } = useCart();
+  const { isDrawerOpen, setIsDrawerOpen, cart, updateQuantity, removeFromCart, subtotal, lastAddedItem, setLastAddedItem } = useCart();
 
   if (!isDrawerOpen) return null;
 
@@ -111,6 +111,30 @@ export default function CartDrawer() {
         {/* Drawer Footer */}
         {cart.length > 0 && (
           <div className="p-6 bg-muted/20 border-t border-border space-y-4">
+            {/* Pop up message above the subtotal section */}
+            {lastAddedItem && (
+              <div className="p-3 bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-300 dark:border-emerald-800 rounded-xl flex items-center justify-between gap-3 text-emerald-900 dark:text-emerald-100 shadow-sm animate-in fade-in slide-in-from-top-2 duration-300">
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                  <div className="min-w-0">
+                    <p className="font-semibold text-xs truncate">
+                      Added {lastAddedItem.name} to bag
+                    </p>
+                    <p className="text-[11px] text-emerald-700 dark:text-emerald-300 font-medium">
+                      ₹ {lastAddedItem.price.toLocaleString("en-IN")}
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setLastAddedItem(null)}
+                  className="text-emerald-600 hover:text-emerald-800 p-1 shrink-0"
+                  aria-label="Dismiss notification"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            )}
+
             <div className="space-y-1.5 text-sm">
               <div className="flex justify-between text-muted-foreground text-xs">
                 <span>Subtotal</span>

@@ -22,13 +22,13 @@ export default function AboutPage() {
           />
         </div>
         <div className="container mx-auto px-4 relative z-10 text-center max-w-3xl">
-          <span className="text-accent text-xs uppercase tracking-[0.4em] font-bold block mb-4">
+          <span className="text-amber-300 text-xs uppercase tracking-[0.4em] font-bold block mb-4 drop-shadow-md">
             Our Story & Heritage
           </span>
-          <h1 className="text-5xl md:text-7xl font-serif mb-6 leading-tight">
+          <h1 className="text-5xl md:text-7xl font-serif mb-6 leading-tight text-white drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)]">
             Weaving Generations of Grace
           </h1>
-          <p className="text-primary-foreground/80 font-light text-base md:text-lg leading-relaxed">
+          <p className="text-white/90 font-light text-base md:text-lg leading-relaxed max-w-2xl mx-auto drop-shadow-md">
             Resham Craft was established with a singular vision: to safeguard India&apos;s centuries-old handloom tapestry, empowering artisanal lineages while dressing the world in genuine royal elegance.
           </p>
         </div>

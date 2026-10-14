@@ -24,14 +24,14 @@ export default function HeritagePage() {
         </div>
 
         <div className="container mx-auto px-4 relative z-10 text-center max-w-4xl">
-          <span className="text-accent text-xs tracking-[0.4em] uppercase font-bold block mb-4">
+          <span className="text-amber-300 text-xs tracking-[0.4em] uppercase font-bold block mb-4 drop-shadow-md">
             The Living Antiquity
           </span>
-          <h1 className="text-5xl md:text-7xl font-serif mb-6 leading-tight">
+          <h1 className="text-5xl md:text-7xl font-serif mb-6 leading-tight text-white drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)]">
             Preserving the Art of <br />
-            <span className="italic font-light text-accent">Slow Luxury</span>
+            <span className="italic font-light text-amber-300 drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)]">Slow Luxury</span>
           </h1>
-          <p className="text-primary-foreground/80 font-light text-base md:text-xl max-w-2xl mx-auto leading-relaxed">
+          <p className="text-white/90 font-light text-base md:text-xl max-w-2xl mx-auto leading-relaxed drop-shadow-md">
             In the heart of holy Varanasi and temple-town Kanchipuram, our generational weavers keep centuries of royal heritage alive thread by thread.
           </p>
         </div>
