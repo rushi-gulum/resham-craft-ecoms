@@ -42,10 +42,7 @@ function CollectionsContent() {
     <main className="flex-1 pt-6 pb-16 md:pt-10 md:pb-20">
       <div className="container mx-auto px-4 max-w-7xl">
         {/* Compact Header Section */}
-        <div className="text-center mb-8">
-          <span className="label-eyebrow block mb-2">
-            Handwoven Masterpieces
-          </span>
+        <div className="text-center mb-6">
           <h1 className="text-3xl md:text-5xl font-serif text-primary">
             The Masterpiece Collection
           </h1>

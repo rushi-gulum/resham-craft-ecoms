@@ -41,29 +41,29 @@ export default function BridalPage() {
             backgroundImage: "url('/images/bridal-4.png')",
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/50 to-black/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/65 to-black/50" />
 
         <div className="relative text-center text-white px-4 z-10 max-w-4xl">
-          <span className="text-accent text-xs md:text-sm tracking-[0.4em] uppercase font-bold block mb-4">
+          <span className="text-amber-300 text-xs md:text-sm tracking-[0.4em] uppercase font-bold block mb-4 drop-shadow-md">
             The Bespoke Haute Couture
           </span>
-          <h1 className="text-6xl md:text-8xl font-serif mb-6 leading-tight">
+          <h1 className="text-6xl md:text-8xl font-serif mb-6 leading-tight text-white drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)]">
             The Bridal <br />
-            <span className="italic font-light text-accent">Odyssey</span>
+            <span className="italic font-light text-amber-300 drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)]">Odyssey</span>
           </h1>
-          <p className="text-sm md:text-lg tracking-[0.25em] uppercase font-light border-y border-accent/40 py-4 inline-block mb-8">
+          <p className="text-sm md:text-lg tracking-[0.25em] uppercase font-medium text-amber-100/90 border-y border-amber-300/40 py-4 inline-block mb-8 drop-shadow-md">
             Sacred Heirlooms for a Lifetime
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <button
               onClick={() => setIsModalOpen(true)}
-              className="px-10 py-4.5 bg-accent text-accent-foreground font-bold text-xs uppercase tracking-[0.2em] hover:bg-white transition-colors shadow-2xl flex items-center gap-2"
+              className="px-8 py-4.5 bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 text-stone-950 font-black text-xs md:text-sm uppercase tracking-[0.2em] hover:from-white hover:to-white hover:text-primary transition-all shadow-[0_8px_30px_rgba(245,158,11,0.5)] flex items-center gap-2.5 border-2 border-amber-300"
             >
-              <Calendar className="w-4 h-4" /> Book Virtual Drape Session
+              <Calendar className="w-4 h-4 stroke-[2.5]" /> Book Virtual Drape Session
             </button>
             <a
               href="#trousseau"
-              className="px-10 py-4.5 border border-white/50 text-white font-bold text-xs uppercase tracking-[0.2em] hover:bg-white/10 transition-colors"
+              className="px-8 py-4.5 bg-black/60 hover:bg-white hover:text-primary text-white font-black text-xs md:text-sm uppercase tracking-[0.2em] border-2 border-white backdrop-blur-md shadow-2xl transition-all"
             >
               Explore Trousseau
             </a>

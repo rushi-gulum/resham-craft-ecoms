@@ -13,28 +13,22 @@ export default function NewArrivalsPage() {
   return (
     <main className="flex-1">
       {/* Banner */}
-      <section className="py-20 md:py-28 bg-muted/20 border-b border-border/40">
+      <section className="pt-6 pb-6 md:pt-8 md:pb-8 bg-muted/20 border-b border-border/40">
         <div className="container mx-auto px-4 text-center max-w-4xl">
-          <span className="text-accent text-xs tracking-[0.4em] uppercase font-bold block mb-4">
-            Fresh from the Sacred Looms
-          </span>
-          <h1 className="text-5xl md:text-7xl font-serif text-primary mb-6 italic">
+          <h1 className="text-3xl md:text-5xl font-serif text-primary italic">
             The 2026 Spring Edit
           </h1>
-          <p className="text-muted-foreground font-light leading-relaxed max-w-xl mx-auto text-base">
-            Explore our most recent creations where contemporary silhouettes and modern pastel hues harmonize with centuries-old pit-loom heritage.
-          </p>
         </div>
       </section>
 
       {/* Featured Drop Highlight Showcase */}
-      <section className="py-20 bg-background">
+      <section className="py-10 md:py-14 bg-background">
         <div className="container mx-auto px-4 max-w-6xl">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center mb-24">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center mb-16">
             <div className="relative aspect-[4/5] bg-muted overflow-hidden shadow-2xl">
               <Image
-                src="/images/modern_silk_saree_drape.png"
-                alt="The Pastel Paradigm Saree Drape"
+                src="/images/bridal-1.png"
+                alt="Lavender Swarna Scallop Bridal Silk"
                 fill
                 priority
                 className="object-cover"
@@ -56,7 +50,7 @@ export default function NewArrivalsPage() {
               </p>
               <div className="pt-2 flex items-baseline gap-4">
                 <span className="text-2xl font-serif text-primary font-bold">
-                  ₹ 36,000
+                  ₹ 42,000
                 </span>
                 <span className="text-xs uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded font-semibold">
                   Only 3 Woven
@@ -64,14 +58,14 @@ export default function NewArrivalsPage() {
               </div>
               <div className="pt-4 flex flex-wrap gap-4">
                 <Link
-                  href="/collections/crimson-bridal-special"
+                  href="/collections/lavender-swarna-scallop-bridal"
                   className="px-8 py-4 bg-primary text-white text-xs uppercase tracking-[0.2em] font-bold hover:bg-primary/95 transition-all flex items-center gap-2"
                 >
                   Inspect Drape Details <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
                 <button
                   type="button"
-                  onClick={() => addToCart(PRODUCTS[5])}
+                  onClick={() => addToCart(PRODUCTS.find((p) => p.id === "lavender-swarna-scallop-bridal") || PRODUCTS[0])}
                   className="px-8 py-4 border border-primary text-primary text-xs uppercase tracking-[0.2em] font-bold hover:bg-primary hover:text-white transition-colors"
                 >
                   + Add to Bag
