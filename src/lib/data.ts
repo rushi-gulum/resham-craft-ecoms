@@ -455,6 +455,28 @@ export const PRODUCTS: Product[] = [
     careInstructions: "Preserve with cedar chips in muslin. Dry clean only.",
     description: "The quintessential auspicious Maharashtrian wedding saree in lustrous Pitambari golden-yellow, woven with dense golden buttis and a magnificent celebratory Mor-Popat pallu."
   },
+  {
+    id: "shweta-moti-nauvari-paithani",
+    name: "Shweta Moti Royal Nauvari Paithani",
+    category: "Paithani",
+    price: 35500,
+    originalPrice: 41000,
+    image: "/images/paithani-11.jpg",
+    secondaryImages: [
+      "/images/paithani-11.jpg",
+      "/images/heritage_weaving_close-up.png",
+      "/images/handloom_weaving_craft.png"
+    ],
+    isBestseller: true,
+    isNew: true,
+    fabric: "100% Pure Yeola Mulberry Silk (Silk Mark Certified)",
+    zariType: "Pure Gold Dipped Kalabattu & Vivid Meenakari Tapestry",
+    color: "Pearl Off-White & Gilded Gold with Mor-Asavali Pallu",
+    origin: "Yeola, Maharashtra",
+    blousePiece: "Included (Matching pearl cream pure silk blouse fabric with gold border, 90cm)",
+    careInstructions: "Wrap in muslin cloth. Specialist dry clean only.",
+    description: "Pristine pearl off-white pure silk Paithani saree woven with subtle golden polka buttis and a breathtaking celebratory tapestry pallu featuring multi-hued peacocks and floral vines."
+  },
 
   // ==========================================
   // BRIDAL TROUSSEAU COLLECTION (5 Products)
