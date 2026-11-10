@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { ReactNode } from "react";
 
 interface RevealProps {
@@ -12,10 +12,30 @@ interface RevealProps {
   variant?: "up" | "zoom" | "wipe";
 }
 
-/** Plays its entrance once, the first time it scrolls into view. Styles live in globals.css. */
+// False until the first page has painted. Reveals mounted after that (a new
+// page, a filter change) animate even when they start on screen.
+let revealArmed = false;
+
+/**
+ * Plays its entrance once, the first time it scrolls into view. Styles live in globals.css.
+ *
+ * Content is only hidden once this script is running (the `data-reveal-ready` flag on <html>),
+ * so if JavaScript is off or fails to load, everything simply stays visible.
+ */
 export default function Reveal({ children, className, delay = 0, variant = "up" }: RevealProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
+
+  // Runs before the browser paints, so nothing already on screen ever flickers out
+  useLayoutEffect(() => {
+    const element = ref.current;
+    if (!revealArmed && element) {
+      const rect = element.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) setVisible(true);
+    }
+    document.documentElement.dataset.revealReady = "true";
+    if (!revealArmed) requestAnimationFrame(() => (revealArmed = true));
+  }, []);
 
   useEffect(() => {
     const element = ref.current;

@@ -371,12 +371,13 @@ html::-webkit-scrollbar-track {
   transition-delay: var(--reveal-delay, 0ms);
 }
 
-.scroll-reveal[data-visible="false"][data-reveal="up"] {
+/* Hidden states only apply once Reveal.tsx is running (see data-reveal-ready) */
+html[data-reveal-ready] .scroll-reveal[data-visible="false"][data-reveal="up"] {
   opacity: 0;
   transform: translateY(28px);
 }
 
-.scroll-reveal[data-visible="false"][data-reveal="zoom"] {
+html[data-reveal-ready] .scroll-reveal[data-visible="false"][data-reveal="zoom"] {
   opacity: 0;
   transform: scale(0.93);
 }
@@ -386,7 +387,7 @@ html::-webkit-scrollbar-track {
   clip-path: inset(-60px);
 }
 
-.scroll-reveal[data-visible="false"][data-reveal="wipe"] {
+html[data-reveal-ready] .scroll-reveal[data-visible="false"][data-reveal="wipe"] {
   clip-path: inset(0 100% 0 0);
 }
 
@@ -451,13 +452,12 @@ html::-webkit-scrollbar-track {
 
 /* Rating bars fill once their panel scrolls into view */
 .rating-bar {
-  transform: scaleX(0);
   transform-origin: left;
   transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.scroll-reveal[data-visible="true"] .rating-bar {
-  transform: scaleX(1);
+html[data-reveal-ready] .scroll-reveal[data-visible="false"] .rating-bar {
+  transform: scaleX(0);
 }
 
 /* ───────────────────────────────────────────────
@@ -498,12 +498,11 @@ html::-webkit-scrollbar-track {
 
 /* Decorative line that draws out from its center when scrolled to */
 .draw-line {
-  transform: scaleX(0);
   transition: transform 1000ms cubic-bezier(0.22, 1, 0.36, 1) 340ms;
 }
 
-.scroll-reveal[data-visible="true"] .draw-line {
-  transform: scaleX(1);
+html[data-reveal-ready] .scroll-reveal[data-visible="false"] .draw-line {
+  transform: scaleX(0);
 }
 
 /* Dropdowns and the date picker */
