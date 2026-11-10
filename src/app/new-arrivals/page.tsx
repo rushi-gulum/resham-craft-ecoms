@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { PRODUCTS } from "@/lib/data";
 import { useCart } from "@/lib/cart-context";
-import { ShoppingBag, ArrowRight, Sparkles } from "lucide-react";
+import { ShoppingBag, ArrowRight, Sparkles } from "@/components/icons";
 
 export default function NewArrivalsPage() {
   const { addToCart } = useCart();
@@ -49,7 +49,7 @@ export default function NewArrivalsPage() {
                 Conceived for the modern connoisseur who values subtlety as profoundly as heritage. Hand-dyed organic mulberry yarns meet delicate silver meenakari borders in this limited seasonal release.
               </p>
               <div className="pt-2 flex items-baseline gap-4">
-                <span className="text-2xl font-serif text-primary font-bold">
+                <span className="text-2xl price-text text-primary font-semibold">
                   ₹ 8,499
                 </span>
                 <span className="text-xs uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded font-semibold">
@@ -122,14 +122,14 @@ export default function NewArrivalsPage() {
                       {product.description}
                     </p>
                     <div className="mt-auto pt-3 border-t border-border/40 flex justify-between items-center">
-                      <span className="font-serif text-base font-bold text-primary">
+                      <span className="price-text text-base font-semibold text-primary">
                         ₹ {product.price.toLocaleString("en-IN")}
                       </span>
                       <Link
                         href={`/collections/${product.id}`}
                         className="text-xs uppercase tracking-wider font-bold text-accent hover:text-primary"
                       >
-                        Explore →
+                        Explore <ArrowRight className="inline-block w-3.5 h-3.5 ml-1 -mt-0.5" />
                       </Link>
                     </div>
                   </div>

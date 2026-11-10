@@ -58,6 +58,11 @@ interface CartContextType {
   orders: PlacedOrder[];
   placeOrder: (order: PlacedOrder) => void;
   latestOrder: PlacedOrder | null;
+  isHydrated: boolean;
+  couponCode: string | null;
+  discount: number;
+  applyCoupon: (code: string) => boolean;
+  removeCoupon: () => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -115,75 +120,60 @@ const INITIAL_ORDERS: PlacedOrder[] = [
   }
 ];
 
+const COUPONS: Record<string, number> = { ROYAL10: 0.1 };
+
+const DEFAULT_CART: CartItem[] = [
+  { product: PRODUCTS[0], quantity: 1 },
+  { product: PRODUCTS[1], quantity: 1 }
+];
+
+function readSaved<T>(key: string, fallback: T): T {
+  try {
+    const saved = localStorage.getItem(key);
+    if (saved) return JSON.parse(saved);
+  } catch (e) {
+    console.error(e);
+  }
+  return fallback;
+}
+
 export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [cart, setCart] = useState<CartItem[]>(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const saved = localStorage.getItem("reshamcraft_cart");
-        if (saved) return JSON.parse(saved);
-      } catch (e) {
-        console.error(e);
-      }
-    }
-    return [
-      { product: PRODUCTS[0], quantity: 1 },
-      { product: PRODUCTS[1], quantity: 1 }
-    ];
-  });
+  // Start from the same values on the server and in the browser. Saved data is
+  // loaded after the first render so the two never disagree during hydration.
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const [isHydrated, setIsHydrated] = useState(false);
+  const [couponCode, setCouponCode] = useState<string | null>(null);
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [lastAddedItem, setLastAddedItem] = useState<{ name: string; price: number } | null>(null);
   const toastTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
 
-  const [user, setUser] = useState<UserAccount>(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const saved = localStorage.getItem("reshamcraft_user");
-        if (saved) return JSON.parse(saved);
-      } catch (e) {
-        console.error(e);
-      }
-    }
-    return DEMO_USER;
-  });
+  const [user, setUser] = useState<UserAccount>(DEMO_USER);
 
-  const [orders, setOrders] = useState<PlacedOrder[]>(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const saved = localStorage.getItem("reshamcraft_orders");
-        if (saved) return JSON.parse(saved);
-      } catch (e) {
-        console.error(e);
-      }
-    }
-    return INITIAL_ORDERS;
-  });
+  const [orders, setOrders] = useState<PlacedOrder[]>(INITIAL_ORDERS);
 
   const [latestOrder, setLatestOrder] = useState<PlacedOrder | null>(null);
 
   useEffect(() => {
+    setCart(readSaved("reshamcraft_cart", DEFAULT_CART));
+    setUser(readSaved("reshamcraft_user", DEMO_USER));
+    setOrders(readSaved("reshamcraft_orders", INITIAL_ORDERS));
+    setCouponCode(readSaved<string | null>("reshamcraft_coupon", null));
+    setIsHydrated(true);
+  }, []);
+
+  // Persist changes, but never before saved data has been loaded.
+  useEffect(() => {
+    if (!isHydrated) return;
     try {
       localStorage.setItem("reshamcraft_cart", JSON.stringify(cart));
-    } catch (e) {
-      console.error(e);
-    }
-  }, [cart]);
-
-  useEffect(() => {
-    try {
       localStorage.setItem("reshamcraft_user", JSON.stringify(user));
-    } catch (e) {
-      console.error(e);
-    }
-  }, [user]);
-
-  useEffect(() => {
-    try {
       localStorage.setItem("reshamcraft_orders", JSON.stringify(orders));
+      localStorage.setItem("reshamcraft_coupon", JSON.stringify(couponCode));
     } catch (e) {
       console.error(e);
     }
-  }, [orders]);
+  }, [isHydrated, cart, user, orders, couponCode]);
 
   const addToCart = (product: Product) => {
     setCart((prev) => {
@@ -251,10 +241,22 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setOrders((prev) => [newOrder, ...prev]);
     setLatestOrder(newOrder);
     clearCart();
+    setCouponCode(null);
   };
+
+  const applyCoupon = (code: string) => {
+    const normalized = code.trim().toUpperCase();
+    if (!COUPONS[normalized]) return false;
+    setCouponCode(normalized);
+    return true;
+  };
+
+  const removeCoupon = () => setCouponCode(null);
 
   const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
   const subtotal = cart.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+  // Worked out from the live subtotal so it stays right as the bag changes
+  const discount = couponCode ? Math.round(subtotal * (COUPONS[couponCode] ?? 0)) : 0;
 
   return (
     <CartContext.Provider
@@ -275,7 +277,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         logoutUser,
         orders,
         placeOrder,
-        latestOrder
+        latestOrder,
+        isHydrated,
+        couponCode,
+        discount,
+        applyCoupon,
+        removeCoupon
       }}
     >
       {children}

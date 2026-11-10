@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { FileText, ArrowLeft, Mail, Phone, MapPin } from "lucide-react";
+import { FileText, ArrowLeft, Mail, Phone, MapPin } from "@/components/icons";
 
 export const metadata: Metadata = {
   title: "Terms of Service | Resham Craft",
@@ -219,7 +219,7 @@ export default function TermsOfServicePage() {
               8. Intellectual Property
             </h2>
             <p>
-              Unless otherwise stated, website content—including text, graphics, photographs, logos, product descriptions, branding, and design elements—is owned by or licensed to Resham Craft.
+              Unless otherwise stated, website content, including text, graphics, photographs, logos, product descriptions, branding, and design elements, is owned by or licensed to Resham Craft.
             </p>
             <p>
               You may access the website for personal shopping and other lawful purposes. You may not reproduce, distribute, modify, publish, or commercially exploit protected content without authorization, except where permitted by law.

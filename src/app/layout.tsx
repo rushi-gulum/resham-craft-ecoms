@@ -8,7 +8,7 @@ import { CartProvider } from "@/lib/cart-context";
 import { Toaster } from "sonner";
 
 const montserrat = Montserrat({
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"], // latin-ext includes the rupee sign
   variable: "--font-montserrat",
   display: "swap",
 });
@@ -62,6 +62,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${montserrat.variable} ${playfair.variable}`}>
       <body className="min-h-screen flex flex-col font-sans antialiased bg-background text-foreground selection:bg-accent selection:text-accent-foreground">
+        {/* Without JavaScript nothing would trigger the scroll reveals */}
+        <noscript>
+          <style>{".scroll-reveal { opacity: 1 !important; transform: none !important; clip-path: none !important; }"}</style>
+        </noscript>
         <CartProvider>
           <Navbar />
           <CartDrawer />

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Reveal from "@/components/Reveal";
 
 const GALLERY_IMAGES = [
   "/images/banarasi-1.jpg",
@@ -13,21 +14,29 @@ export default function InstaGallery() {
   return (
     <section className="py-24 bg-muted/10">
       <div className="container mx-auto px-4 text-center mb-12">
-        <span className="label-eyebrow block mb-3">
-          Follow The Journey
-        </span>
-        <h2 className="text-3xl md:text-4xl font-serif text-primary mb-3">
-          @ReshamCraft
-        </h2>
-        <p className="text-muted-foreground text-sm leading-relaxed max-w-sm mx-auto">
-          Tag #ReshamCraft on Instagram to be featured in our royal gallery
-        </p>
+        <Reveal>
+          <span className="label-eyebrow block mb-3">
+            Follow The Journey
+          </span>
+        </Reveal>
+        <Reveal delay={100}>
+          <h2 className="text-3xl md:text-4xl font-serif text-primary mb-3">
+            @ReshamCraft
+          </h2>
+        </Reveal>
+        <Reveal delay={200}>
+          <p className="text-muted-foreground text-sm leading-relaxed max-w-sm mx-auto">
+            Tag #ReshamCraft on Instagram to be featured in our royal gallery
+          </p>
+        </Reveal>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 px-2">
         {GALLERY_IMAGES.map((img, idx) => (
-          <div
+          <Reveal
             key={idx}
+            variant="zoom"
+            delay={idx * 80}
             className="group relative aspect-square overflow-hidden bg-muted cursor-pointer"
           >
             <Image
@@ -54,7 +63,7 @@ export default function InstaGallery() {
                 <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
               </svg>
             </div>
-          </div>
+          </Reveal>
         ))}
       </div>
     </section>

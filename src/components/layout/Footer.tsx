@@ -7,7 +7,7 @@ export default function Footer() {
   return (
     <footer className="bg-primary text-primary-foreground pt-20 pb-10">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16 border-b border-white/10 pb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16 border-b border-white/10 pb-12">
           {/* Brand Col */}
           <div className="md:col-span-1">
             <Link href="/" className="flex items-center gap-3 mb-6 group">
@@ -83,34 +83,7 @@ export default function Footer() {
                   Sustainability
                 </Link>
               </li>
-              <li>
-                <Link href="/login" className="hover:text-white transition-colors">
-                  Client Portal / Login
-                </Link>
-              </li>
             </ul>
-          </div>
-
-          {/* Newsletter Col */}
-          <div>
-            <h4 className="font-serif text-lg mb-6 text-accent">Newsletter</h4>
-            <p className="text-white/75 text-sm mb-4 leading-relaxed">
-              Subscribe to receive updates, access to exclusive deals, and more.
-            </p>
-            <form onSubmit={(e) => e.preventDefault()} className="flex border-b border-white/30 pb-2">
-              <input
-                placeholder="Your email address"
-                className="bg-transparent border-none outline-none text-sm text-white placeholder:text-white/50 flex-1"
-                type="email"
-                required
-              />
-              <button
-                type="submit"
-                className="text-xs uppercase tracking-widest text-accent hover:text-white transition-colors font-semibold"
-              >
-                Join
-              </button>
-            </form>
           </div>
         </div>
 

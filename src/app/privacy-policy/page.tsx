@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ShieldCheck, ArrowLeft, Mail, Phone, MapPin } from "lucide-react";
+import { ShieldCheck, ArrowLeft, Mail, Phone, MapPin } from "@/components/icons";
 
 export const metadata: Metadata = {
   title: "Privacy Policy | Resham Craft",

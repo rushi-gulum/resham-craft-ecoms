@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { User, Package, Heart, MapPin, LogOut, ChevronRight, Sparkles, ExternalLink, Trash2 } from "lucide-react";
+import { User, Package, Heart, MapPin, LogOut, ChevronRight, Sparkles, ExternalLink, Trash2 } from "@/components/icons";
 import { PRODUCTS } from "@/lib/data";
 import { useCart } from "@/lib/cart-context";
 import { toast } from "sonner";
@@ -136,7 +136,7 @@ export default function ProfilePage() {
 
                     <div className="flex items-center justify-between w-full md:w-auto gap-4 pt-4 md:pt-0 border-t md:border-none border-border/40">
                       <div className="text-left md:text-right">
-                        <p className="text-base font-serif font-bold text-primary">₹ 6,800</p>
+                        <p className="text-base price-text font-semibold text-primary">₹ 6,800</p>
                         <span className="text-xs text-muted-foreground">Prepaid (UPI)</span>
                       </div>
                       <Link
@@ -185,7 +185,7 @@ export default function ProfilePage() {
 
                     <div className="flex items-center justify-between w-full md:w-auto gap-8 pt-4 md:pt-0 border-t md:border-none border-border/40">
                       <div className="text-left md:text-right">
-                        <p className="text-base font-serif font-bold text-primary">₹ 6,200</p>
+                        <p className="text-base price-text font-semibold text-primary">₹ 6,200</p>
                         <span className="text-xs text-muted-foreground">Prepaid (Card)</span>
                       </div>
                       <button
@@ -229,7 +229,7 @@ export default function ProfilePage() {
                             <h4 className="font-serif text-base text-primary font-semibold line-clamp-1 mt-0.5">
                               {product.name}
                             </h4>
-                            <p className="text-sm font-serif font-bold text-primary mt-1">
+                            <p className="text-sm price-text font-semibold text-primary mt-1">
                               ₹ {product.price.toLocaleString("en-IN")}
                             </p>
                           </div>

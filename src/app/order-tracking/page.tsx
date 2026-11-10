@@ -15,8 +15,18 @@ import {
   ArrowRight,
   ShieldCheck,
   Sparkles,
-  PhoneCall
-} from "lucide-react";
+  PhoneCall,
+  Check
+} from "@/components/icons";
+
+// How many of the four steps each tracking status has completed
+const COMPLETED_STEPS: Record<PlacedOrder["trackingStatus"], number> = {
+  Confirmed: 1,
+  "Artisan Loom Inspection": 2,
+  Dispatched: 3,
+  "In Transit": 3,
+  Delivered: 4,
+};
 
 function OrderTrackingContent() {
   const searchParams = useSearchParams();
@@ -30,11 +40,13 @@ function OrderTrackingContent() {
     orders[0];
 
   const steps = [
-    { title: "Order Confirmed", desc: "Received at Loom House", date: order?.date || "Today", done: true },
-    { title: "Artisan Quality Seal", desc: "Silk Mark & pure zari inspection", date: "Within 24 Hours", done: true },
-    { title: "Dispatched in Muslin Box", desc: "Priority Air Courier", date: "Expected Tomorrow", done: order?.trackingStatus === "Delivered" },
-    { title: "Out for Delivery", desc: "Doorstep white-glove handover", date: "3–4 Days", done: order?.trackingStatus === "Delivered" }
+    { title: "Order Confirmed", desc: "Received at Loom House", estimate: order?.date || "Today" },
+    { title: "Artisan Quality Seal", desc: "Silk Mark & pure zari inspection", estimate: "Within 24 Hours" },
+    { title: "Dispatched in Muslin Box", desc: "Priority Air Courier", estimate: "Expected Tomorrow" },
+    { title: "Out for Delivery", desc: "Doorstep white-glove handover", estimate: "3–4 Days" }
   ];
+  const completed = COMPLETED_STEPS[order?.trackingStatus ?? "Confirmed"];
+  const isDelivered = completed === steps.length;
 
   return (
     <main className="flex-1 py-12 md:py-20">
@@ -51,36 +63,74 @@ function OrderTrackingContent() {
             Tracking Order #{order?.orderId || orderId}
           </h1>
           <p className="text-sm md:text-base text-muted-foreground max-w-lg mx-auto leading-relaxed">
-            Your sacred handwoven drape is being prepared with delicate care by our master artisans in Varanasi.
+            {isDelivered
+              ? "Your sacred handwoven drape has been delivered. We hope it becomes a treasured heirloom."
+              : "Your sacred handwoven drape is being prepared with delicate care by our master artisans in Varanasi."}
           </p>
         </div>
 
-        {/* Live Stepper Visualizer */}
+        {/* Order Progress Stepper */}
         <div className="bg-card border border-border/60 p-6 md:p-10 mb-10 shadow-sm">
           <h2 className="text-xl font-serif text-primary border-b border-border/50 pb-4 mb-8">
-            Live Dispatch Progress
+            Order Progress
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 relative">
-            {steps.map((s, idx) => (
-              <div key={idx} className="flex flex-col items-start relative">
-                <div className="flex items-center gap-3 mb-3">
+          <ol className="grid grid-cols-1 md:grid-cols-4 md:gap-4">
+            {steps.map((step, idx) => {
+              const isDone = idx < completed;
+              const isCurrent = idx === completed;
+              const isLast = idx === steps.length - 1;
+              return (
+                <li
+                  key={step.title}
+                  aria-current={isCurrent ? "step" : undefined}
+                  style={{ "--reveal-delay": `${idx * 150}ms` } as React.CSSProperties}
+                  className={`reveal-up relative flex md:flex-col md:items-center gap-4 md:gap-3 md:text-center ${isLast ? "" : "pb-8 md:pb-0"}`}
+                >
+                  {/* Line to the next step: down on phones, across on larger screens */}
+                  {!isLast && (
+                    <span
+                      aria-hidden="true"
+                      className="absolute bg-border left-5 top-12 bottom-1 w-0.5 -ml-px md:left-[calc(50%+1.75rem)] md:right-[calc(-50%-1rem+1.75rem)] md:top-5 md:bottom-auto md:w-auto md:h-0.5 md:ml-0"
+                    >
+                      {idx < completed - 1 && (
+                        <span
+                          style={{ animationDelay: `${300 + idx * 250}ms` }}
+                          className="step-fill block w-full h-full bg-primary"
+                        />
+                      )}
+                    </span>
+                  )}
+
                   <div
-                    className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
-                      s.done ? "bg-primary text-accent" : "bg-muted text-muted-foreground"
+                    className={`relative shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold ${
+                      isDone
+                        ? "bg-primary text-accent"
+                        : isCurrent
+                          ? "step-pulse bg-card border-2 border-accent text-primary"
+                          : "bg-muted text-muted-foreground"
                     }`}
                   >
-                    {s.done ? "✓" : idx + 1}
+                    {isDone ? <Check className="w-5 h-5" /> : idx + 1}
                   </div>
-                  <span className="text-sm font-semibold text-primary font-serif">{s.title}</span>
-                </div>
-                <p className="text-xs text-muted-foreground pl-11 leading-relaxed">{s.desc}</p>
-                <span className="text-xs text-accent uppercase tracking-wider font-semibold pl-11 mt-1">
-                  {s.date}
-                </span>
-              </div>
-            ))}
-          </div>
+
+                  <div className="min-w-0 pt-0.5 md:pt-0">
+                    <h3 className={`text-sm font-semibold font-serif leading-snug ${isDone || isCurrent ? "text-primary" : "text-muted-foreground"}`}>
+                      {step.title}
+                    </h3>
+                    <p className="text-xs text-muted-foreground leading-relaxed mt-1">{step.desc}</p>
+                    <span
+                      className={`block text-[11px] uppercase tracking-wider font-semibold mt-1.5 ${
+                        isCurrent ? "text-accent" : "text-muted-foreground/80"
+                      }`}
+                    >
+                      {isDone ? (idx === 0 ? step.estimate : "Completed") : isCurrent ? `In Progress • ${step.estimate}` : step.estimate}
+                    </span>
+                  </div>
+                </li>
+              );
+            })}
+          </ol>
         </div>
 
         {/* Order Details Grid */}
@@ -116,7 +166,7 @@ function OrderTrackingContent() {
                     </div>
                     <div className="flex justify-between items-end pt-2">
                       <span className="text-xs text-muted-foreground">Qty: {item.quantity}</span>
-                      <span className="font-serif text-base font-bold text-primary">
+                      <span className="price-text text-base font-semibold text-primary">
                         ₹ {(item.product.price * item.quantity).toLocaleString("en-IN")}
                       </span>
                     </div>
@@ -136,7 +186,7 @@ function OrderTrackingContent() {
                 <span>Payment Status</span>
                 <span className="text-emerald-700 font-bold">{order?.paymentStatus}</span>
               </div>
-              <div className="flex justify-between text-lg font-serif font-bold text-primary pt-3 border-t border-border">
+              <div className="flex justify-between text-lg price-text font-semibold text-primary pt-3 border-t border-border">
                 <span>Total Amount</span>
                 <span>₹ {order?.total?.toLocaleString("en-IN")}</span>
               </div>
@@ -172,7 +222,7 @@ function OrderTrackingContent() {
                 href="mailto:support@reshamcraft.com"
                 className="inline-block text-primary font-bold uppercase tracking-wider text-[11px] underline"
               >
-                Connect with Concierge →
+                Connect with Concierge <ArrowRight className="inline-block w-3.5 h-3.5 ml-1 -mt-0.5" />
               </a>
             </div>
 

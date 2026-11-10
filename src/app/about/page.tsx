@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { Sparkles, Award, Users, HeartHandshake, ArrowRight } from "lucide-react";
+import { Sparkles, Award, Users, HeartHandshake, ArrowRight } from "@/components/icons";
 
 export const metadata: Metadata = {
   title: "About Us - Resham Craft",

@@ -6,7 +6,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/lib/cart-context";
 import { toast } from "sonner";
-import { Lock, Mail, User, ArrowRight, Sparkles, KeyRound } from "lucide-react";
+import { Lock, Mail, User, ArrowRight, Eye, EyeOff } from "@/components/icons";
+import { TextField } from "@/components/form-fields";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -18,19 +19,31 @@ export default function LoginPage() {
     password: "",
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [errors, setErrors] = useState<{ name?: string; email?: string; password?: string }>({});
 
-  // Fill in demo credentials
-  const fillDemoCredentials = () => {
-    setFormData({
-      name: "Ananya Sharma",
-      email: "demo@reshamcraft.com",
-      password: "password123"
-    });
-    toast.info("Demo credentials loaded!");
+  const updateField = (field: keyof typeof formData, value: string) => {
+    setFormData((data) => ({ ...data, [field]: value }));
+    setErrors((current) => ({ ...current, [field]: undefined }));
+  };
+
+  const validate = () => {
+    const found: typeof errors = {};
+    if (isRegister && !formData.name.trim()) found.name = "Please enter your name";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) found.email = "Please enter a valid email";
+    if (!formData.password) found.password = "Please enter your password";
+    return found;
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const found = validate();
+    setErrors(found);
+    const firstInvalid = Object.keys(found)[0];
+    if (firstInvalid) {
+      document.getElementById(`login-${firstInvalid}`)?.focus();
+      return;
+    }
     setIsLoading(true);
 
     setTimeout(() => {
@@ -46,27 +59,6 @@ export default function LoginPage() {
   return (
     <main className="flex-1 py-16 md:py-24 flex items-center justify-center bg-muted/10">
       <div className="container mx-auto px-4 max-w-md">
-        {/* Demo Helper Callout */}
-        <div className="mb-6 p-4 bg-accent/10 border border-accent/40 rounded-sm">
-          <div className="flex items-start justify-between gap-3">
-            <div className="flex items-center gap-2 text-primary font-semibold text-xs">
-              <KeyRound className="w-4 h-4 text-accent" />
-              <span>Demo Quick Login</span>
-            </div>
-            <button
-              type="button"
-              onClick={fillDemoCredentials}
-              className="text-xs uppercase tracking-wider font-bold text-accent hover:text-primary underline cursor-pointer"
-            >
-              Autofill Demo
-            </button>
-          </div>
-          <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
-            <strong>Email:</strong> <code className="bg-white/80 px-1.5 py-0.5 rounded text-primary font-medium">demo@reshamcraft.com</code> <br />
-            <strong>Password:</strong> <code className="bg-white/80 px-1.5 py-0.5 rounded text-primary font-medium">password123</code>
-          </p>
-        </div>
-
         <div className="bg-card border border-border/60 p-8 md:p-10 shadow-xl">
           {/* Logo Brand Header */}
           <div className="text-center mb-8">
@@ -93,70 +85,66 @@ export default function LoginPage() {
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form noValidate onSubmit={handleSubmit} className="space-y-4">
             {isRegister && (
-              <div>
-                <label className="block text-xs uppercase tracking-wider font-semibold text-primary mb-1.5">
-                  Full Name
-                </label>
-                <div className="relative">
-                  <User className="w-4 h-4 text-muted-foreground absolute left-3.5 top-3.5" />
-                  <input
-                    type="text"
-                    required
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="Ananya Sharma"
-                    className="w-full pl-10 pr-4 py-3 text-sm bg-background border border-border focus:border-accent focus:outline-none transition-colors text-primary"
-                  />
-                </div>
+              <div className="tick-in">
+                <TextField
+                  id="login-name"
+                  label="Full Name"
+                  icon={User}
+                  autoComplete="name"
+                  value={formData.name}
+                  error={errors.name}
+                  onChange={(e) => updateField("name", e.target.value)}
+                  placeholder="Ananya Sharma"
+                />
               </div>
             )}
 
-            <div>
-              <label className="block text-xs uppercase tracking-wider font-semibold text-primary mb-1.5">
-                Email Address
-              </label>
-              <div className="relative">
-                <Mail className="w-4 h-4 text-muted-foreground absolute left-3.5 top-3.5" />
-                <input
-                  type="email"
-                  required
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  placeholder="demo@reshamcraft.com"
-                  className="w-full pl-10 pr-4 py-3 text-sm bg-background border border-border focus:border-accent focus:outline-none transition-colors text-primary"
-                />
-              </div>
-            </div>
+            <TextField
+              id="login-email"
+              label="Email Address"
+              icon={Mail}
+              type="email"
+              autoComplete="email"
+              value={formData.email}
+              error={errors.email}
+              onChange={(e) => updateField("email", e.target.value)}
+              placeholder="you@example.com"
+            />
 
-            <div>
-              <div className="flex justify-between items-center mb-1.5">
-                <label className="block text-xs uppercase tracking-wider font-semibold text-primary">
-                  Password
-                </label>
-                {!isRegister && (
+            <TextField
+              id="login-password"
+              label="Password"
+              icon={Lock}
+              type={showPassword ? "text" : "password"}
+              autoComplete={isRegister ? "new-password" : "current-password"}
+              value={formData.password}
+              error={errors.password}
+              onChange={(e) => updateField("password", e.target.value)}
+              placeholder="Enter your password"
+              labelAction={
+                !isRegister && (
                   <button
                     type="button"
-                    onClick={() => toast.info("Demo: Use password123")}
-                    className="text-xs text-accent hover:underline uppercase tracking-wider font-medium"
+                    onClick={() => toast.info("Password reset is coming soon")}
+                    className="text-[11px] text-accent hover:underline uppercase tracking-wider font-medium"
                   >
                     Forgot Password?
                   </button>
-                )}
-              </div>
-              <div className="relative">
-                <Lock className="w-4 h-4 text-muted-foreground absolute left-3.5 top-3.5" />
-                <input
-                  type="password"
-                  required
-                  value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  placeholder="password123"
-                  className="w-full pl-10 pr-4 py-3 text-sm bg-background border border-border focus:border-accent focus:outline-none transition-colors text-primary"
-                />
-              </div>
-            </div>
+                )
+              }
+              trailing={
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  className="w-10 h-10 inline-flex items-center justify-center text-muted-foreground hover:text-primary transition-colors"
+                >
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              }
+            />
 
             <button
               type="submit"
@@ -167,7 +155,7 @@ export default function LoginPage() {
                 "Authenticating..."
               ) : isRegister ? (
                 <>
-                  Create Account <Sparkles className="w-3.5 h-3.5 text-accent" />
+                  Create Account <ArrowRight className="w-3.5 h-3.5 text-accent" />
                 </>
               ) : (
                 <>
@@ -178,17 +166,20 @@ export default function LoginPage() {
           </form>
 
           {/* Toggle between Login and Register */}
-          <div className="mt-8 pt-6 border-t border-border/50 text-center">
-            <p className="text-sm text-muted-foreground">
-              {isRegister ? "Already a royal circle member?" : "New to Resham Craft?"}{" "}
-              <button
-                type="button"
-                onClick={() => setIsRegister(!isRegister)}
-                className="text-primary font-bold hover:text-accent hover:underline uppercase tracking-wider text-xs ml-1 cursor-pointer"
-              >
-                {isRegister ? "Sign In Here" : "Create Account"}
-              </button>
+          <div className="mt-6 pt-6 border-t border-border/50 text-center">
+            <p className="text-sm text-muted-foreground mb-3">
+              {isRegister ? "Already a royal circle member?" : "New to Resham Craft?"}
             </p>
+            <button
+              type="button"
+              onClick={() => {
+                setIsRegister(!isRegister);
+                setErrors({});
+              }}
+              className="w-full h-12 border border-primary text-primary hover:bg-primary hover:text-white text-xs uppercase tracking-[0.2em] font-bold transition duration-300 ease-out hover:-translate-y-0.5 active:translate-y-0"
+            >
+              {isRegister ? "Sign In Instead" : "Create an Account"}
+            </button>
           </div>
         </div>
       </div>

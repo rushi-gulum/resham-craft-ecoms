@@ -24,7 +24,7 @@
     --secondary-foreground: 348 78% 21%;
     
     --muted: 36 20% 93%;
-    /* Fixed: was 350 15% 42% — now darker for AA contrast on ivory */
+    /* Fixed: was 350 15% 42%, now darker for AA contrast on ivory */
     --muted-foreground: 350 20% 38%;
     
     /* Accent: Antique Zari Gold #D4AF37 */
@@ -92,6 +92,11 @@
     color: inherit;
   }
 
+  /* Keep any digits in headings the same height as capitals */
+  h1, h2, h3, h4, h5, h6, .font-serif {
+    font-variant-numeric: lining-nums;
+  }
+
   p {
     line-height: 1.75;
   }
@@ -106,12 +111,12 @@
     @apply text-xs tracking-[0.3em] uppercase font-semibold text-accent;
   }
 
-  /* Small badge / tag text — minimum legible size */
+  /* Small badge / tag text: minimum legible size */
   .label-tag {
     @apply text-xs tracking-widest uppercase font-bold;
   }
 
-  /* Standard body copy — readable at all sizes */
+  /* Standard body copy: readable at all sizes */
   .body-copy {
     @apply text-base leading-relaxed text-muted-foreground font-normal;
   }
@@ -119,6 +124,14 @@
   /* Smaller supporting text */
   .body-sm {
     @apply text-sm leading-relaxed text-muted-foreground;
+  }
+
+  /* Prices and totals. Playfair's numbers dip and rise like old-style text, so
+     money uses the body font with even, same-width digits. */
+  .price-text {
+    font-family: var(--font-montserrat), sans-serif;
+    font-variant-numeric: lining-nums tabular-nums;
+    letter-spacing: -0.01em;
   }
 
   /* Form field labels */
@@ -147,4 +160,421 @@
 
 .peacock-gradient-bg {
   background: linear-gradient(135deg, #0D7C85 0%, #064E53 100%);
+}
+
+/* ───────────────────────────────────────────────
+   Custom scrollbar (matches the footer's bg-primary)
+   Applies to the page and every inner scroll area.
+   ─────────────────────────────────────────────── */
+*::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--primary) / 0.5);
+  border-radius: 9999px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: hsl(var(--primary) / 0.8);
+}
+
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Main page scrollbar: slightly wider, with a visible track */
+html::-webkit-scrollbar {
+  width: 6px;
+}
+
+html::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+
+/* Firefox only: Chrome ignores the rules above if scrollbar-color is set */
+@supports not selector(::-webkit-scrollbar) {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--primary) / 0.5) transparent;
+  }
+
+  html {
+    scrollbar-color: hsl(var(--primary) / 0.5) hsl(var(--muted));
+  }
+}
+
+/* ───────────────────────────────────────────────
+   Navbar animations
+   ─────────────────────────────────────────────── */
+.nav-enter {
+  animation: nav-enter 500ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--nav-delay, 0ms);
+}
+
+@keyframes nav-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Gold line that grows out from the center of a link on hover */
+.nav-underline {
+  position: relative;
+}
+
+.nav-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 1px;
+  background-color: hsl(var(--accent));
+  transform: scaleX(0);
+  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-underline:hover::after,
+.nav-underline:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.nav-badge-pop,
+.pop-in {
+  animation: nav-badge-pop 350ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes nav-badge-pop {
+  from {
+    transform: scale(0.4);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+/* ───────────────────────────────────────────────
+   Shared reveal + home hero animations
+   ─────────────────────────────────────────────── */
+.reveal-up {
+  animation: reveal-up 800ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--reveal-delay, 0ms);
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Slow settle of the background photo */
+.hero-zoom {
+  animation: hero-zoom 12s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes hero-zoom {
+  from {
+    transform: scale(1.1);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+/* Eyebrow letters draw together */
+.hero-eyebrow {
+  animation: hero-eyebrow 1100ms cubic-bezier(0.22, 1, 0.36, 1) 150ms both;
+}
+
+@keyframes hero-eyebrow {
+  from {
+    opacity: 0;
+    letter-spacing: 0.7em;
+  }
+  to {
+    opacity: 1;
+    letter-spacing: 0.4em;
+  }
+}
+
+/* Each heading line rises from behind a mask. The padding keeps the tails of
+   italic letters visible and the negative margin keeps the original spacing. */
+.hero-line-mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.16em;
+  margin-bottom: -0.16em;
+}
+
+.hero-line {
+  display: block;
+  animation: hero-line 1000ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--reveal-delay, 0ms);
+}
+
+@keyframes hero-line {
+  from {
+    transform: translateY(115%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Gold light passing across the main button on hover */
+.hero-sheen {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-sheen::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 45%;
+  background: linear-gradient(100deg, transparent, hsl(var(--accent) / 0.35), transparent);
+  transform: translateX(-160%) skewX(-18deg);
+  pointer-events: none;
+}
+
+.hero-sheen:hover::after {
+  transform: translateX(320%) skewX(-18deg);
+  transition: transform 750ms ease-out;
+}
+
+/* ───────────────────────────────────────────────
+   Scroll reveals (see components/Reveal.tsx)
+   ─────────────────────────────────────────────── */
+.scroll-reveal {
+  transition:
+    opacity 800ms ease-out,
+    transform 900ms cubic-bezier(0.22, 1, 0.36, 1),
+    clip-path 1200ms cubic-bezier(0.65, 0, 0.35, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.scroll-reveal[data-visible="false"][data-reveal="up"] {
+  opacity: 0;
+  transform: translateY(28px);
+}
+
+.scroll-reveal[data-visible="false"][data-reveal="zoom"] {
+  opacity: 0;
+  transform: scale(0.93);
+}
+
+/* The wider end value keeps the box-shadow from being clipped */
+.scroll-reveal[data-reveal="wipe"] {
+  clip-path: inset(-60px);
+}
+
+.scroll-reveal[data-visible="false"][data-reveal="wipe"] {
+  clip-path: inset(0 100% 0 0);
+}
+
+/* ───────────────────────────────────────────────
+   Product page animations
+   ─────────────────────────────────────────────── */
+/* "backwards" hands the transform back afterwards so the hover zoom still works */
+.image-swap {
+  animation: image-swap 500ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+
+@keyframes image-swap {
+  from {
+    opacity: 0;
+    transform: scale(1.03);
+  }
+}
+
+.tab-link {
+  position: relative;
+  color: hsl(var(--muted-foreground));
+  transition: color 200ms ease;
+}
+
+.tab-link:hover,
+.tab-link[data-active="true"] {
+  color: hsl(var(--primary));
+}
+
+.tab-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background-color: hsl(var(--primary));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.tab-link[data-active="true"]::after {
+  transform: scaleX(1);
+}
+
+.tab-fade,
+.tick-in {
+  animation: tab-fade 350ms ease-out both;
+}
+
+@keyframes tab-fade {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Rating bars fill once their panel scrolls into view */
+.rating-bar {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.scroll-reveal[data-visible="true"] .rating-bar {
+  transform: scaleX(1);
+}
+
+/* ───────────────────────────────────────────────
+   Cart drawer animations
+   ─────────────────────────────────────────────── */
+/* Items follow the panel in, one after another, each time the drawer opens */
+[data-open="true"] .drawer-item {
+  animation: drawer-item 500ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(120ms + var(--drawer-index, 0) * 60ms);
+}
+
+@keyframes drawer-item {
+  from {
+    opacity: 0;
+    transform: translateX(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* A removed row slides away, then closes the gap it leaves */
+.drawer-row {
+  display: grid;
+  grid-template-rows: 1fr;
+  transition:
+    grid-template-rows 300ms ease-out,
+    opacity 200ms ease-out,
+    transform 300ms ease-out;
+}
+
+.drawer-row[data-leaving="true"] {
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transform: translateX(28px);
+}
+
+/* Decorative line that draws out from its center when scrolled to */
+.draw-line {
+  transform: scaleX(0);
+  transition: transform 1000ms cubic-bezier(0.22, 1, 0.36, 1) 340ms;
+}
+
+.scroll-reveal[data-visible="true"] .draw-line {
+  transform: scaleX(1);
+}
+
+/* Dropdowns and the date picker */
+.popover-in {
+  transform-origin: inherit;
+  animation: popover-in 180ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes popover-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Order progress: lines fill toward the next step, the current step pulses */
+.step-fill {
+  transform-origin: top;
+  animation: step-fill-down 500ms ease-out both;
+}
+
+@media (min-width: 768px) {
+  .step-fill {
+    transform-origin: left;
+    animation-name: step-fill-across;
+  }
+}
+
+@keyframes step-fill-down {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes step-fill-across {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.step-pulse {
+  animation: step-pulse 2s ease-out infinite;
+}
+
+@keyframes step-pulse {
+  from {
+    box-shadow: 0 0 0 0 hsl(var(--accent) / 0.45);
+  }
+  to {
+    box-shadow: 0 0 0 12px hsl(var(--accent) / 0);
+  }
+}
+
+/* Visitors who ask for less motion get the end state straight away */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
 }

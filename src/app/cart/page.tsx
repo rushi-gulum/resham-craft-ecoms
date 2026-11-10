@@ -4,31 +4,41 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useCart } from "@/lib/cart-context";
-import { Trash2, Plus, Minus, ArrowLeft, ShieldCheck, Truck, Sparkles, CheckCircle2 } from "lucide-react";
+import { Trash2, Plus, Minus, ArrowLeft, ShieldCheck, Truck, Sparkles, CheckCircle2 } from "@/components/icons";
 import { toast } from "sonner";
+import { calculateShipping, FREE_SHIPPING_ABOVE } from "@/lib/utils";
+import { TextField } from "@/components/form-fields";
 
 export default function CartPage() {
-  const { cart, updateQuantity, removeFromCart, subtotal } = useCart();
+  const {
+    cart,
+    updateQuantity,
+    removeFromCart,
+    subtotal,
+    isHydrated,
+    couponCode: appliedCoupon,
+    discount,
+    applyCoupon,
+    removeCoupon,
+  } = useCart();
   const [couponCode, setCouponCode] = useState("");
-  const [discount, setDiscount] = useState(0);
+  const [couponError, setCouponError] = useState("");
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
 
-  const shipping = cart.length > 0 ? (subtotal > 5000 ? 0 : 500) : 0;
+  const shipping = calculateShipping(subtotal);
   const total = Math.max(0, subtotal - discount + shipping);
 
-  const applyCoupon = (e: React.FormEvent) => {
+  const handleCoupon = (e: React.FormEvent) => {
     e.preventDefault();
-    if (couponCode.toUpperCase() === "ROYAL10") {
-      const disc = Math.round(subtotal * 0.1);
-      setDiscount(disc);
-      toast.success("ROYAL10 Applied!", {
-        description: `Saved ₹ ${disc.toLocaleString("en-IN")} on your order`,
+    if (applyCoupon(couponCode)) {
+      setCouponError("");
+      setCouponCode("");
+      toast.success(`${couponCode.trim().toUpperCase()} Applied!`, {
+        description: "Your discount has been added to this order",
       });
     } else {
-      toast.error("Invalid coupon code", {
-        description: "Try code 'ROYAL10' for 10% demo discount",
-      });
+      setCouponError("Invalid code. Try ROYAL10 for 10% off");
     }
   };
 
@@ -42,6 +52,10 @@ export default function CartPage() {
       });
     }, 1500);
   };
+
+  if (!isHydrated) {
+    return <main className="flex-1 min-h-[60vh]" />;
+  }
 
   if (orderComplete) {
     return (
@@ -165,7 +179,7 @@ export default function CartPage() {
 
                         {/* Price */}
                         <div className="text-right">
-                          <p className="text-lg font-serif text-primary font-bold">
+                          <p className="text-lg price-text text-primary font-semibold">
                             ₹ {(item.product.price * item.quantity).toLocaleString("en-IN")}
                           </p>
                           <span className="text-xs text-muted-foreground font-normal">
@@ -197,25 +211,26 @@ export default function CartPage() {
               </h2>
 
               {/* Coupon Form */}
-              <form onSubmit={applyCoupon} className="space-y-2">
-                <label className="text-xs uppercase tracking-wider font-semibold text-muted-foreground block">
-                  Promo Code
-                </label>
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    value={couponCode}
-                    onChange={(e) => setCouponCode(e.target.value)}
-                    placeholder="Try ROYAL10"
-                    className="flex-1 px-3 py-2 text-xs uppercase tracking-wider bg-background border border-border focus:outline-none focus:border-accent"
-                  />
-                  <button
-                    type="submit"
-                    className="px-4 py-2 bg-muted text-primary text-xs uppercase tracking-widest font-bold hover:bg-primary hover:text-white transition-colors"
-                  >
-                    Apply
-                  </button>
-                </div>
+              <form onSubmit={handleCoupon}>
+                <TextField
+                  label="Promo Code"
+                  className="pr-20 uppercase tracking-wider placeholder:normal-case placeholder:tracking-normal"
+                  value={couponCode}
+                  error={couponError}
+                  onChange={(e) => {
+                    setCouponCode(e.target.value);
+                    setCouponError("");
+                  }}
+                  placeholder="Try ROYAL10"
+                  trailing={
+                    <button
+                      type="submit"
+                      className="h-10 px-4 bg-muted text-primary text-xs uppercase tracking-widest font-bold hover:bg-primary hover:text-white transition-colors"
+                    >
+                      Apply
+                    </button>
+                  }
+                />
               </form>
 
               {/* Summary Items */}
@@ -226,7 +241,16 @@ export default function CartPage() {
                 </div>
                 {discount > 0 && (
                   <div className="flex justify-between text-emerald-700 font-semibold">
-                    <span>Royal Discount (10%)</span>
+                    <span className="flex items-center gap-2">
+                      {appliedCoupon} (10%)
+                      <button
+                        type="button"
+                        onClick={removeCoupon}
+                        className="text-[11px] font-medium text-muted-foreground underline hover:text-primary transition-colors"
+                      >
+                        Remove
+                      </button>
+                    </span>
                     <span>- ₹ {discount.toLocaleString("en-IN")}</span>
                   </div>
                 )}
@@ -240,7 +264,7 @@ export default function CartPage() {
                     )}
                   </span>
                 </div>
-                <div className="pt-4 border-t border-border flex justify-between text-xl font-serif text-primary font-bold">
+                <div className="pt-4 border-t border-border flex justify-between text-xl price-text text-primary font-semibold">
                   <span>Total Due</span>
                   <span>₹ {total.toLocaleString("en-IN")}</span>
                 </div>
@@ -249,7 +273,7 @@ export default function CartPage() {
               {/* Checkout CTA */}
               <Link
                 href="/checkout"
-                className="w-full bg-primary text-white py-4.5 text-xs uppercase tracking-[0.25em] font-bold hover:bg-primary/90 transition-all shadow-lg flex items-center justify-center gap-2"
+                className="w-full bg-primary text-white py-4 text-xs uppercase tracking-[0.25em] font-bold hover:bg-primary/90 transition-all shadow-lg flex items-center justify-center gap-2"
               >
                 Proceed to Checkout <Sparkles className="w-4 h-4 text-accent" />
               </Link>
@@ -261,7 +285,7 @@ export default function CartPage() {
                 </div>
                 <div className="flex items-center gap-2">
                   <Truck className="w-4 h-4 text-accent shrink-0" />
-                  <span>Free shipping on orders above ₹ 5,000</span>
+                  <span>Free shipping on orders above ₹ {FREE_SHIPPING_ABOVE.toLocaleString("en-IN")}</span>
                 </div>
               </div>
             </div>

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { Sparkles, Scroll, Landmark, ShieldCheck, Compass, ArrowRight } from "lucide-react";
+import { Sparkles, Scroll, Landmark, ShieldCheck, Compass, ArrowRight } from "@/components/icons";
 
 export const metadata: Metadata = {
   title: "Our Heritage - Resham Craft",
@@ -56,7 +56,7 @@ export default function HeritagePage() {
                   A authentic Banarasi kadhwa or Kanchipuram korvai saree is never merely woven; it is composed. The rhythmic cadence of the foot-pedal, the whisper of the shuttle, and the precise placement of each gold zari motif echo temple rituals refined over a thousand years.
                 </p>
                 <p>
-                  Each piece demands hundreds of hours of focused discipline. No shortcuts, no compromises—only unhurried master craftsmanship.
+                  Each piece demands hundreds of hours of focused discipline. No shortcuts, no compromises, only unhurried master craftsmanship.
                 </p>
               </div>
             </div>
@@ -144,7 +144,7 @@ export default function HeritagePage() {
           </p>
           <Link
             href="/collections"
-            className="inline-flex items-center gap-2 px-10 py-4.5 bg-primary text-white text-xs uppercase tracking-[0.2em] font-bold hover:bg-primary/95 transition-all shadow-lg"
+            className="inline-flex items-center gap-2 px-10 py-4 bg-primary text-white text-xs uppercase tracking-[0.2em] font-bold hover:bg-primary/95 transition-all shadow-lg"
           >
             Explore Their Creations <ArrowRight className="w-4 h-4 text-accent" />
           </Link>

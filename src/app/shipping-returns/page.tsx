@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Truck, ArrowLeft, Mail, Phone, MapPin, AlertCircle, Clock, CheckCircle2, RotateCcw, PackageCheck } from "lucide-react";
+import { Truck, ArrowLeft, Mail, Phone, MapPin, AlertCircle, Clock, CheckCircle2, RotateCcw, PackageCheck } from "@/components/icons";
 
 export const metadata: Metadata = {
   title: "Shipping & Returns Policy | Resham Craft",

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -10,17 +10,33 @@ import {
   Banknote,
   Smartphone,
   ShieldCheck,
+  User,
+  Phone,
+  MapPin,
   Lock,
   ArrowRight,
   Truck,
   CheckCircle2,
   Building
-} from "lucide-react";
+} from "@/components/icons";
 import { toast } from "sonner";
+import { calculateShipping } from "@/lib/utils";
+import { SelectField, TextField } from "@/components/form-fields";
+
+const INDIAN_STATES = [
+  "Andaman and Nicobar Islands", "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chandigarh",
+  "Chhattisgarh", "Dadra and Nagar Haveli and Daman and Diu", "Delhi", "Goa", "Gujarat", "Haryana",
+  "Himachal Pradesh", "Jammu and Kashmir", "Jharkhand", "Karnataka", "Kerala", "Ladakh", "Lakshadweep",
+  "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Puducherry",
+  "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand",
+  "West Bengal",
+].map((state) => ({ value: state, label: state }));
+
+type AddressField = "fullName" | "phone" | "street" | "city" | "pincode";
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const { cart, subtotal, placeOrder, user } = useCart();
+  const { cart, subtotal, placeOrder, user, isHydrated, couponCode, discount } = useCart();
 
   const [paymentMethod, setPaymentMethod] = useState<"cod" | "upi" | "card" | "netbanking">("cod");
   const [isProcessing, setIsProcessing] = useState(false);
@@ -36,6 +52,20 @@ export default function CheckoutPage() {
     pincode: user.pincode || "560001"
   });
 
+  // Prefill from the saved account once it has loaded
+  useEffect(() => {
+    if (!isHydrated) return;
+    setAddress((prev) => ({
+      ...prev,
+      fullName: user.name || prev.fullName,
+      phone: user.phone || prev.phone,
+      email: user.email || prev.email,
+      street: user.address || prev.street,
+      city: user.city || prev.city,
+      pincode: user.pincode || prev.pincode
+    }));
+  }, [isHydrated]);
+
   // Card details
   const [cardData, setCardData] = useState({
     number: "•••• •••• •••• 4242",
@@ -47,8 +77,25 @@ export default function CheckoutPage() {
   // UPI details
   const [upiId, setUpiId] = useState("ananya@okhdfcbank");
 
-  const shipping = subtotal > 5000 ? 0 : 500;
-  const total = subtotal + shipping;
+  const [addressErrors, setAddressErrors] = useState<Partial<Record<AddressField, string>>>({});
+
+  const updateAddress = (field: keyof typeof address, value: string) => {
+    setAddress((current) => ({ ...current, [field]: value }));
+    setAddressErrors((errors) => ({ ...errors, [field]: undefined }));
+  };
+
+  const validateAddress = () => {
+    const errors: Partial<Record<AddressField, string>> = {};
+    if (!address.fullName.trim()) errors.fullName = "Please enter the recipient's name";
+    if (address.phone.replace(/\D/g, "").length < 10) errors.phone = "Please enter a valid phone number";
+    if (!address.street.trim()) errors.street = "Please enter the delivery address";
+    if (!address.city.trim()) errors.city = "Please enter the city";
+    if (!/^\d{6}$/.test(address.pincode.trim())) errors.pincode = "Enter a 6-digit pincode";
+    return errors;
+  };
+
+  const shipping = calculateShipping(subtotal);
+  const total = Math.max(0, subtotal - discount + shipping);
 
   const handleCompleteOrder = (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,6 +103,14 @@ export default function CheckoutPage() {
     if (cart.length === 0) {
       toast.error("Your shopping bag is empty");
       router.push("/collections");
+      return;
+    }
+
+    const errors = validateAddress();
+    setAddressErrors(errors);
+    const firstInvalid = Object.keys(errors)[0];
+    if (firstInvalid) {
+      document.getElementById(`checkout-${firstInvalid}`)?.focus();
       return;
     }
 
@@ -70,7 +125,7 @@ export default function CheckoutPage() {
         date: new Date().toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" }),
         items: [...cart],
         subtotal,
-        discount: 0,
+        discount,
         shipping,
         total,
         paymentMethod,
@@ -93,6 +148,10 @@ export default function CheckoutPage() {
       router.push(`/order-tracking?orderId=${generatedId}`);
     }, 1200);
   };
+
+  if (!isHydrated) {
+    return <main className="flex-1 min-h-[60vh]" />;
+  }
 
   if (cart.length === 0) {
     return (
@@ -124,7 +183,7 @@ export default function CheckoutPage() {
           </h1>
         </div>
 
-        <form onSubmit={handleCompleteOrder} className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        <form noValidate onSubmit={handleCompleteOrder} className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           {/* Left Column: Delivery Address & Payment Method (7 cols) */}
           <div className="lg:col-span-7 space-y-8">
             {/* Step 1: Shipping Address */}
@@ -136,83 +195,66 @@ export default function CheckoutPage() {
                 <h2 className="text-xl font-serif text-primary">Shipping Destination</h2>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-                <div>
-                  <label className="block text-primary uppercase tracking-wider text-xs font-semibold mb-1.5">
-                    Full Recipient Name
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={address.fullName}
-                    onChange={(e) => setAddress({ ...address, fullName: e.target.value })}
-                    className="w-full px-3 py-2.5 bg-background border border-border focus:border-accent outline-none text-sm text-primary"
-                  />
-                </div>
-                <div>
-                  <label className="block text-primary uppercase tracking-wider text-xs font-semibold mb-1.5">
-                    Contact Phone (for delivery SMS)
-                  </label>
-                  <input
-                    type="tel"
-                    required
-                    value={address.phone}
-                    onChange={(e) => setAddress({ ...address, phone: e.target.value })}
-                    className="w-full px-3 py-2.5 bg-background border border-border focus:border-accent outline-none text-sm text-primary"
-                  />
-                </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <TextField
+                  id="checkout-fullName"
+                  label="Full Recipient Name"
+                  icon={User}
+                  autoComplete="name"
+                  value={address.fullName}
+                  error={addressErrors.fullName}
+                  onChange={(e) => updateAddress("fullName", e.target.value)}
+                />
+                <TextField
+                  id="checkout-phone"
+                  label="Contact Phone (for delivery SMS)"
+                  icon={Phone}
+                  type="tel"
+                  autoComplete="tel"
+                  value={address.phone}
+                  error={addressErrors.phone}
+                  onChange={(e) => updateAddress("phone", e.target.value)}
+                />
 
                 <div className="md:col-span-2">
-                  <label className="block text-primary uppercase tracking-wider text-xs font-semibold mb-1.5">
-                    Street Address / Penthouse / Estate
-                  </label>
-                  <input
-                    type="text"
-                    required
+                  <TextField
+                    id="checkout-street"
+                    label="Street Address / Penthouse / Estate"
+                    icon={MapPin}
+                    autoComplete="street-address"
                     value={address.street}
-                    onChange={(e) => setAddress({ ...address, street: e.target.value })}
-                    className="w-full px-3 py-2.5 bg-background border border-border focus:border-accent outline-none text-sm text-primary"
+                    error={addressErrors.street}
+                    onChange={(e) => updateAddress("street", e.target.value)}
                   />
                 </div>
 
-                <div>
-                  <label className="block text-primary uppercase tracking-wider text-xs font-semibold mb-1.5">
-                    City
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={address.city}
-                    onChange={(e) => setAddress({ ...address, city: e.target.value })}
-                    className="w-full px-3 py-2.5 bg-background border border-border focus:border-accent outline-none text-sm text-primary"
-                  />
-                </div>
+                <TextField
+                  id="checkout-city"
+                  label="City"
+                  autoComplete="address-level2"
+                  value={address.city}
+                  error={addressErrors.city}
+                  onChange={(e) => updateAddress("city", e.target.value)}
+                />
+                <TextField
+                  id="checkout-pincode"
+                  label="Postal Pincode"
+                  inputMode="numeric"
+                  maxLength={6}
+                  autoComplete="postal-code"
+                  value={address.pincode}
+                  error={addressErrors.pincode}
+                  onChange={(e) => updateAddress("pincode", e.target.value)}
+                />
 
-                <div className="grid grid-cols-2 gap-2">
-                  <div>
-                    <label className="block text-primary uppercase tracking-wider text-xs font-semibold mb-1.5">
-                      State
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={address.state}
-                      onChange={(e) => setAddress({ ...address, state: e.target.value })}
-                      className="w-full px-3 py-2.5 bg-background border border-border focus:border-accent outline-none text-sm text-primary"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-primary uppercase tracking-wider text-xs font-semibold mb-1.5">
-                      Postal Pincode
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={address.pincode}
-                      onChange={(e) => setAddress({ ...address, pincode: e.target.value })}
-                      className="w-full px-3 py-2.5 bg-background border border-border focus:border-accent outline-none text-sm text-primary"
-                    />
-                  </div>
+                <div className="md:col-span-2">
+                  <SelectField
+                    id="checkout-state"
+                    label="State"
+                    value={address.state}
+                    options={INDIAN_STATES}
+                    onChange={(value) => updateAddress("state", value)}
+                  />
                 </div>
               </div>
             </div>
@@ -298,15 +340,13 @@ export default function CheckoutPage() {
 
                     {paymentMethod === "upi" && (
                       <div className="mt-4 pt-3 border-t border-border/50">
-                        <label className="block text-xs uppercase tracking-wider text-primary font-semibold mb-1.5">
-                          Enter UPI VPA ID
-                        </label>
-                        <input
-                          type="text"
+                        <TextField
+                          label="Enter UPI VPA ID"
+                          icon={Smartphone}
+                          className="max-w-sm"
                           value={upiId}
                           onChange={(e) => setUpiId(e.target.value)}
                           placeholder="yourname@okhdfcbank"
-                          className="w-full max-w-sm px-3 py-2 text-sm bg-background border border-border focus:border-accent outline-none text-primary"
                         />
                       </div>
                     )}
@@ -343,41 +383,28 @@ export default function CheckoutPage() {
                     </p>
 
                     {paymentMethod === "card" && (
-                      <div className="mt-4 pt-3 border-t border-border/50 grid grid-cols-2 gap-3 text-xs">
+                      <div className="mt-4 pt-3 border-t border-border/50 grid grid-cols-2 gap-3">
                         <div className="col-span-2">
-                          <label className="block text-xs uppercase tracking-wider text-primary font-semibold mb-1.5">
-                            Card Number
-                          </label>
-                          <input
-                            type="text"
+                          <TextField
+                            label="Card Number"
+                            icon={CreditCard}
                             value={cardData.number}
                             onChange={(e) => setCardData({ ...cardData, number: e.target.value })}
-                            className="w-full px-3 py-2 bg-background border border-border focus:border-accent outline-none text-sm text-primary"
                           />
                         </div>
-                        <div>
-                          <label className="block text-xs uppercase tracking-wider text-primary font-semibold mb-1.5">
-                            Expiry (MM/YY)
-                          </label>
-                          <input
-                            type="text"
-                            value={cardData.expiry}
-                            onChange={(e) => setCardData({ ...cardData, expiry: e.target.value })}
-                            className="w-full px-3 py-2 bg-background border border-border focus:border-accent outline-none text-sm text-primary"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-xs uppercase tracking-wider text-primary font-semibold mb-1.5">
-                            CVV
-                          </label>
-                          <input
-                            type="password"
-                            maxLength={4}
-                            value={cardData.cvv}
-                            onChange={(e) => setCardData({ ...cardData, cvv: e.target.value })}
-                            className="w-full px-3 py-2 bg-background border border-border focus:border-accent outline-none text-sm text-primary"
-                          />
-                        </div>
+                        <TextField
+                          label="Expiry (MM/YY)"
+                          value={cardData.expiry}
+                          onChange={(e) => setCardData({ ...cardData, expiry: e.target.value })}
+                        />
+                        <TextField
+                          label="CVV"
+                          icon={Lock}
+                          type="password"
+                          maxLength={4}
+                          value={cardData.cvv}
+                          onChange={(e) => setCardData({ ...cardData, cvv: e.target.value })}
+                        />
                       </div>
                     )}
                   </div>
@@ -449,7 +476,7 @@ export default function CheckoutPage() {
                         Qty: {item.quantity} × ₹ {item.product.price.toLocaleString("en-IN")}
                       </span>
                     </div>
-                    <span className="text-sm font-serif font-bold text-primary shrink-0">
+                    <span className="text-sm price-text font-semibold text-primary shrink-0">
                       ₹ {(item.product.price * item.quantity).toLocaleString("en-IN")}
                     </span>
                   </div>
@@ -462,6 +489,12 @@ export default function CheckoutPage() {
                   <span>Bag Subtotal</span>
                   <span className="text-foreground font-medium">₹ {subtotal.toLocaleString("en-IN")}</span>
                 </div>
+                {discount > 0 && (
+                  <div className="flex justify-between text-emerald-700 font-semibold">
+                    <span>{couponCode} (10%)</span>
+                    <span>- ₹ {discount.toLocaleString("en-IN")}</span>
+                  </div>
+                )}
                 <div className="flex justify-between text-muted-foreground">
                   <span>Insured Courier</span>
                   <span className="text-foreground font-medium">{shipping === 0 ? "Free (Complimentary)" : `₹ ${shipping}`}</span>
@@ -470,7 +503,7 @@ export default function CheckoutPage() {
                   <span>Payment Gateway Surcharge</span>
                   <span className="text-emerald-700 font-semibold">₹ 0 (Waived)</span>
                 </div>
-                <div className="pt-3 border-t border-border flex justify-between text-xl font-serif text-primary font-bold">
+                <div className="pt-3 border-t border-border flex justify-between text-xl price-text text-primary font-semibold">
                   <span>Grand Total</span>
                   <span>₹ {total.toLocaleString("en-IN")}</span>
                 </div>
@@ -480,7 +513,7 @@ export default function CheckoutPage() {
               <button
                 type="submit"
                 disabled={isProcessing}
-                className="w-full py-4.5 bg-primary text-white text-xs uppercase tracking-[0.25em] font-bold hover:bg-primary/95 transition-all shadow-xl flex items-center justify-center gap-2 cursor-pointer disabled:opacity-75"
+                className="w-full py-4 bg-primary text-white text-xs uppercase tracking-[0.25em] font-bold hover:bg-primary/95 transition-all shadow-xl flex items-center justify-center gap-2 cursor-pointer disabled:opacity-75"
               >
                 {isProcessing ? (
                   "Authorizing Order..."
