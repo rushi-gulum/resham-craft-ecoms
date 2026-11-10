@@ -5,7 +5,7 @@ import { ArrowRight } from "@/components/icons";
 
 const COLLECTIONS = [
   {
-    href: "/bridal",
+    href: "/collections?category=Bridal",
     image: "/images/bridal-1.png",
     alt: "The Bridal Edit",
     tag: "Ceremonial Elegance",
